@@ -19,7 +19,7 @@ const DriverController = {
   },
 
   getDriver: async(req, res) => {
-    let driverId = req.params.driverId;
+    let driverId = req.params;
     let result;
     try{
       if(driverId !== null || driverId !== undefined){
