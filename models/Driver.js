@@ -17,9 +17,10 @@ const DriverSchema = Schema({
     type: String,
     required: true
   },
-  phone: {
+  mobile: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   email: {
     type: String,
@@ -27,7 +28,7 @@ const DriverSchema = Schema({
   },
   username: {
     type: String,
-    required: true
+    default: null
   },
   street_1: {
     type: String,
@@ -56,7 +57,7 @@ const DriverSchema = Schema({
   id: false,
   collection: 'drivers' 
 });
-
+DriverSchema.index({ "first": 1, "last": 1}, { "unique": true });
 class Driver {
 
   static async getByCategories(id) {
