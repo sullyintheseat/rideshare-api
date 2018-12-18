@@ -122,6 +122,7 @@ class Driver {
   static async getDriverProfile(driverId) {
     try {
       let driver =  await this.findOne({driverId: driverId})
+        .select('first_name last_name driverId city state zip')
         .populate({
           path: 'vehicles',
           model: 'Vehicle',
