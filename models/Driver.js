@@ -60,9 +60,9 @@ const DriverSchema = Schema({
 DriverSchema.index({ "first": 1, "last": 1}, { "unique": true });
 class Driver {
 
-  static async getByCategories(driverId) {
+  static async getItems() {
     try {
-      return await this.find(driverId)
+      return await this.find()
       .exec()
     } catch (err) {
       return err;
@@ -73,15 +73,6 @@ class Driver {
     try {
       return await this.findOne(driverId)
       .exec()
-    } catch (err) {
-      return err;
-    }
-  }
-
-  static async getItems() {
-    try {
-      return await this.find()
-
     } catch (err) {
       return err;
     }
