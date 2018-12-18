@@ -32,6 +32,22 @@ const DriverController = {
       console.log(err)
       res.status(500).send('Unknown Server Response');
     }
+  },
+
+  getDriverFull: async(req, res) => {
+    let driverId = req.params;
+    let result;
+    try{
+      if(driverId !== null || driverId !== undefined){
+        result = await Driver.getDriverProfile(driverId);
+      } else {
+        res.status(200).send('Missing driver information');
+      }
+      res.status(200).send(result);
+    } catch (err) {
+      console.log(err)
+      res.status(500).send('Unknown Server Response');
+    }
   }
  
 }
@@ -41,4 +57,5 @@ module.exports.controller = (app) => {
   app.post('/driver', DriverController.createUser);
   app.get('/driver', DriverController.getDriver);
   app.get('/driver/:driverId', DriverController.getDriver);
+  app.get('/driver/:driverId/full', DriverController.getDriverFull);
 }

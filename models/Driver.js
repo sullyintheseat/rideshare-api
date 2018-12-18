@@ -112,6 +112,20 @@ class Driver {
       return err;
     }
   }
+
+  static async getDriverProfile(driverId) {
+    try {
+      let driver =  await this.findOne({driverId: driverId})
+        .populate('veihcles', {
+          ref: 'vehicle',
+          localField: ownerId,
+          foreignField: ownerId
+        }).exec()
+        return driver;
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 DriverSchema.loadClass(Driver);
