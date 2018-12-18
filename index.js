@@ -3,14 +3,10 @@ const cfg = require('config');
 
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path'),
-      bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const fs = require('fs');
-
 const app = express();
-const http = require('http').Server(app);
-
 const useragent = require('express-useragent');
 
 
