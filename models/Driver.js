@@ -48,6 +48,10 @@ const DriverSchema = Schema({
   zip: {
     type: String,
     required: true
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 },
 {
@@ -95,6 +99,14 @@ class Driver {
       } else {
         return false;
       }
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async deleteDriver(driverId) {
+    try {
+
     } catch (err) {
       return err;
     }
