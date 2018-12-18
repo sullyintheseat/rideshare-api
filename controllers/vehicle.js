@@ -2,10 +2,6 @@ const Vehicle = require('../models/Vehicle');
 const Driver = require('../models/Driver');
 
 const VehicleController = {
-
-  test: async(req, res) => {
-    res.send('test vehicle');
-  },
   
   createVehicle: async(req, res) => {
     let vehicle = req.body;
@@ -24,10 +20,16 @@ const VehicleController = {
     } catch (err) {
       res.status(500).send('Unknown server error');
     }
+  },
+
+  getVehicle: async(req, res) => {
+
   }
 }
 
 module.exports.Controller = VehicleController;
 module.exports.controller = (app) => {
-  app.get('/vehicle', VehicleController.test);
+  app.post('/vehicle', VehicleController.createVehicle);
+  app.get('/vehicle', VehicleController.getVehicle);
+  app.get('/vehicle/:vehicleId', VehicleController.getVehicle);
 }
