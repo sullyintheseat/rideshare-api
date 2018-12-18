@@ -40,8 +40,7 @@ class Vehicle {
   
   static async getVehicle() {
     try {
-      return await this.find()
-      .exec()
+      return await this.find().exec()
     } catch (err) {
       return err;
     }
