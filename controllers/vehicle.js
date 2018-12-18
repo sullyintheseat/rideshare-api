@@ -5,8 +5,10 @@ const VehicleController = {
   
   createVehicle: async(req, res) => {
     let vehicle = req.body;
+    let driverId = vehicle.driverId;
     try {
-      let driver = await Driver.driverExists(vehicle.driverId);
+      let driver = await Driver.driverExists(driverId);
+      
       if(driver){
         if(vehicle) {
           let newvehicle = await Vehicle.createVehicle(vehicle);
@@ -23,7 +25,12 @@ const VehicleController = {
   },
 
   getVehicle: async(req, res) => {
-
+    try {
+     let result = Vehicle.getVehicle();
+     return result;
+    } catch (err) {
+      res.status(500).send('Unknown server error');
+    }
   }
 }
 

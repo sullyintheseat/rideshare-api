@@ -62,6 +62,7 @@ const DriverSchema = Schema({
   collection: 'drivers' 
 });
 DriverSchema.index({ "first": 1, "last": 1}, { "unique": true });
+
 class Driver {
 
   static async getItems() {
@@ -92,7 +93,7 @@ class Driver {
 
   static async driverExists(driverId) {
     try {
-      let driver =  await this.findOne(driverId)
+      let driver =  await this.findOne({driverId: driverId})
       .exec()
       if(driver) { 
         return true;

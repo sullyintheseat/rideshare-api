@@ -29,9 +29,9 @@ const VehicleSchema = Schema({
 
 class Vehicle {
 
-  static async getVehiclesByOwner(ownerId) {
+  static async getVehiclesByOwner(driverId) {
     try {
-      return await this.find(ownerId)
+      return await this.find({driverId: driverId})
       .exec();
     } catch (err) {
       return err;
