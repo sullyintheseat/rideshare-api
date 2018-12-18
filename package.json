@@ -1,0 +1,38 @@
+{
+  "name": "dablog",
+  "version": "1.0.0",
+  "description": "backer for mlwd I am the readme",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sullyintheseat/rideshare-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sullyintheseat/rideshare-api/issues"
+  },
+  "homepage": "https://github.com/sullyintheseat/rideshare-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "config": "^1.24.0",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "cross-env": "^5.2.0",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "express-useragent": "^1.0.12",
+    "helmet": "^3.14.0",
+    "mongodb": "^3.1.8",
+    "mongoose": "^5.3.4",
+    "morgan": "^1.9.1",
+    "qr-image": "^3.2.0",
+    "request": "^2.88.0",
+    "shortid": "^2.2.8"
+  }
+}
