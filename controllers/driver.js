@@ -27,7 +27,7 @@ const DriverController = {
       } else {
         result = await Driver.getItems();
       }
-      res.status(200).senmd(result);
+      res.status(200).send(result);
     } catch (err) {
       console.log(err)
       res.status(500).send('Unknown Server Response');
@@ -39,6 +39,6 @@ const DriverController = {
 module.exports.Controller = DriverController;
 module.exports.controller = (app) => {
   app.post('/driver', DriverController.createUser);
-  app.get('/driver', DriverController.test);
-  app.get('/driver/:driverId', DriverController.test);
+  app.get('/driver', DriverController.getDriver);
+  app.get('/driver/:driverId', DriverController.getDriver);
 }
