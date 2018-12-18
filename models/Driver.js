@@ -71,7 +71,7 @@ class Driver {
   
   static async getItem(driverId) {
     try {
-      return await this.findOne(driverId)
+      return await this.findOne({driverId})
       .exec()
     } catch (err) {
       return err;
