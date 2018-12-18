@@ -1,5 +1,5 @@
 const Vehicle = require('../models/Vehicle');
-
+const Driver = require('../models/Driver');
 
 const VehicleController = {
 
@@ -10,11 +10,16 @@ const VehicleController = {
   createVehicle: async(req, res) => {
     let vehicle = req.body;
     try {
-      if(vehicle) {
-        let newvehicle = await Vehicle.createVehicle(vehicle);
-        res.status(200).send(newvehicle);
+      let driver = await Driver.driverExists(vehicle.driverId);
+      if(driver){
+        if(vehicle) {
+          let newvehicle = await Vehicle.createVehicle(vehicle);
+          res.status(200).send(newvehicle);
+        } else {
+          res.status(401).send('Incomplete data');
+        }
       } else {
-        res.status(401).send('Incomplete data');
+        res.status(400).send('Driver does not exist');
       }
     } catch (err) {
       res.status(500).send('Unknown server error');

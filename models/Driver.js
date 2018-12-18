@@ -60,18 +60,18 @@ const DriverSchema = Schema({
 DriverSchema.index({ "first": 1, "last": 1}, { "unique": true });
 class Driver {
 
-  static async getByCategories(id) {
+  static async getByCategories(driverId) {
     try {
-      return await this.find({category: id})
+      return await this.find(driverId)
       .exec()
     } catch (err) {
       return err;
     }
   }  
   
-  static async getItem(id) {
+  static async getItem(driverId) {
     try {
-      return await this.findOne({ blogShort: id })
+      return await this.findOne(driverId)
       .exec()
     } catch (err) {
       return err;
@@ -90,6 +90,20 @@ class Driver {
   static async createItem(data) {
     try {
       return await this.create(data);
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async driverExists(driverId) {
+    try {
+      let driver =  await this.findOne(driverId)
+      .exec()
+      if(driver) { 
+        return true;
+      } else {
+        return false;
+      }
     } catch (err) {
       return err;
     }
