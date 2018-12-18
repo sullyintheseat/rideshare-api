@@ -62,6 +62,12 @@ const DriverSchema = Schema({
   collection: 'drivers' 
 });
 DriverSchema.index({ "first": 1, "last": 1}, { "unique": true });
+DriverSchema.virtual('vehicles', {
+ ref: 'Vehicle',
+ localField: 'driverId',
+ foreignField: 'driverId' 
+});
+
 
 class Driver {
 
@@ -116,10 +122,13 @@ class Driver {
   static async getDriverProfile(driverId) {
     try {
       let driver =  await this.findOne({driverId: driverId})
-        .populate('veihcles', {
-          ref: 'vehicle',
-          localField: ownerId,
-          foreignField: ownerId
+        .populate({
+          path: 'vehicles',
+          model: 'Vehicle',
+          select : 'plate',
+          match: {
+              driverId: driverId
+          },
         }).exec()
         return driver;
     } catch (err) {
@@ -130,4 +139,4 @@ class Driver {
 
 DriverSchema.loadClass(Driver);
 
-module.exports = mongoose.model('driver', DriverSchema);
+module.exports = mongoose.model('Driver', DriverSchema);

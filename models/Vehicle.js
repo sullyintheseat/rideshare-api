@@ -64,4 +64,4 @@ class Vehicle {
 }
 
 VehicleSchema.loadClass(Vehicle);
-module.exports = mongoose.model('vehicle', VehicleSchema);
+module.exports = mongoose.model('Vehicle', VehicleSchema);
