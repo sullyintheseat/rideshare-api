@@ -18,6 +18,7 @@ const VehicleController = {
         res.status(400).send('Driver does not exist');
       }
     } catch (err) {
+      console.log(err)
       res.status(500).send('Unknown server error');
     }
   },

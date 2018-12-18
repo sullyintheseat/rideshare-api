@@ -47,7 +47,7 @@ class Vehicle {
     }
   }
 
-  static async addVehicle(data) {
+  static async createVehicle(data) {
     try {
       return await this.create(data);
     } catch (err) {
