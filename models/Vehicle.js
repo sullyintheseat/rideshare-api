@@ -38,9 +38,9 @@ class Vehicle {
     }
   }
   
-  static async getVehicle(vehicleId) {
+  static async getVehicle() {
     try {
-      return await this.findOne(vehicleId)
+      return await this.find()
       .exec()
     } catch (err) {
       return err;
