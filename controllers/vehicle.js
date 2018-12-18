@@ -26,7 +26,7 @@ const VehicleController = {
 
   getVehicle: async(req, res) => {
     try {
-     let result = Vehicle.getVehicle();
+     let result = await Vehicle.getVehicle();
      return result;
     } catch (err) {
       res.status(500).send('Unknown server error');
