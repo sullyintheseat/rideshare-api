@@ -13,7 +13,6 @@ const DriverController = {
         res.status(400).send('Incomplete data');
       }
     } catch (err) {
-      console.log(err)
       res.status(500).send('Unknown Server Response');
     }
   },
@@ -29,7 +28,6 @@ const DriverController = {
       }
       res.status(200).send(result);
     } catch (err) {
-      console.log(err)
       res.status(500).send('Unknown Server Response');
     }
   },
@@ -45,7 +43,14 @@ const DriverController = {
       }
       res.status(200).send(result);
     } catch (err) {
-      console.log(err)
+      res.status(500).send('Unknown Server Response');
+    }
+  },
+
+  deleteDriver: async (req, res) => {
+    try {
+      return await Driver.deleteDriver(req.params.id);
+    } catch (err) {
       res.status(500).send('Unknown Server Response');
     }
   }
@@ -58,4 +63,5 @@ module.exports.controller = (app) => {
   app.get('/driver', DriverController.getDriver);
   app.get('/driver/:driverId', DriverController.getDriver);
   app.get('/driver/:driverId/full', DriverController.getDriverFull);
+  app.delete('/driver/:id', DriverController.deleteDriver);
 }

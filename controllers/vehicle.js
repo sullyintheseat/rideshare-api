@@ -8,7 +8,6 @@ const VehicleController = {
     let driverId = vehicle.driverId;
     try {
       let driver = await Driver.driverExists(driverId);
-      
       if(driver){
         if(vehicle) {
           let newvehicle = await Vehicle.createVehicle(vehicle);
@@ -31,7 +30,9 @@ const VehicleController = {
     } catch (err) {
       res.status(500).send('Unknown server error');
     }
-  }
+  },
+  
+
 }
 
 module.exports.Controller = VehicleController;

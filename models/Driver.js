@@ -113,7 +113,7 @@ class Driver {
 
   static async deleteDriver(driverId) {
     try {
-
+      return true;
     } catch (err) {
       return err;
     }
