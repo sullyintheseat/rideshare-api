@@ -2,7 +2,6 @@ const Driver = require('../models/Driver');
 
 const DriverController = {
 
-
   createUser: async(req, res) => {
     let driver = req.body;
     try {
