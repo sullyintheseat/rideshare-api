@@ -61,6 +61,8 @@ module.exports.controller = (app) => {
   app.post('/driver', DriverController.createUser);
   app.get('/driver', DriverController.getDriver);
   app.get('/driver/:driverId', DriverController.getDriver);
+  
+  //administration or driver personal call
   app.get('/driver/:driverId/full', DriverController.getDriverFull);
   app.delete('/driver/:id', DriverController.deleteDriver);
 }
