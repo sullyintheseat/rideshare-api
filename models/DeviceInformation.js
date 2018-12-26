@@ -220,15 +220,16 @@ class DeviceInformation {
 
   static async createDevice(data) {
     try{
-
+      let result = this.createDevice(data);
+      return result;
     } catch (err) {
-
+      return err;
     }
   }
 
   static async getDeviceData(id) {
     try{
-
+      
     } catch (err) {
       
     }
