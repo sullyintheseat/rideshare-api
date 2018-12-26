@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
 const useragent = require('express-useragent');
+const cookieParser = require('cookie-parser');
 
 
 // establish db connection and pass to other classes to share
@@ -45,6 +46,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.text({ type: 'text/html' }))
 
+app.use(cookieParser());
 
 app.all('*', function(req, res, next){ req.syspath = __dirname; next();});
 app.all('*', function(req, res, next){ req.db	= db; next();});

@@ -27,11 +27,19 @@ const VehicleSchema = Schema({
   collection: 'vehicles' 
 });
 
+VehicleSchema.virtual('driver', {
+  ref: 'Driver',
+  localField: 'driverId',
+  foreignField: 'driverId' 
+ });
+
+ 
 class Vehicle {
 
   static async getVehiclesByOwner(driverId) {
     try {
       return await this.find({driverId: driverId})
+      .populate('driver')
       .exec();
     } catch (err) {
       return err;
@@ -40,7 +48,9 @@ class Vehicle {
   
   static async getVehicle() {
     try {
-      return await this.find().exec()
+      return await this.find()
+      .populate('driver')
+      .exec()
     } catch (err) {
       return err;
     }
