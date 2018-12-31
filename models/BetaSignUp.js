@@ -1,7 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const shortId = require('shortid');
 
 const BetaDriverSchema = Schema({
+  betaId:{
+    type: String,
+    default: shortId.generate,
+    unique: true,
+    index: true
+  },
   name: {
     type: String,
     default: null,
