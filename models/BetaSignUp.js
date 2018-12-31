@@ -10,6 +10,7 @@ const BetaDriverSchema = Schema({
   email: {
     type: String,
     default: null,
+    unique: true,
     required: true
   },
   inDfw: {
