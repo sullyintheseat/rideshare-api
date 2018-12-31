@@ -52,6 +52,7 @@ class BetaDriver {
   static async signupBeta(driver) {
     try {
       let result = await this.create(driver);
+      console.log(result);
       return result;
     } catch (err) {
       return err;
