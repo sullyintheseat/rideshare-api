@@ -31,7 +31,7 @@ const RootController = {
     let signer = req.body;
     try {
       let result = await BetaSignUp.signupBeta(signer);
-      res.status(200).send(result);
+      res.status(200).send({success:true});
     } catch (err) {
       res.status(500).send('big error');
     }
