@@ -1,5 +1,6 @@
 const Device = require('../models/DeviceInformation');
 const Driver = require('../models/Driver');
+const BetaSignUp = require('../models/BetaSignUp');
 
 const RootController = {
   adConnect: async (req, res) => {
@@ -24,6 +25,16 @@ const RootController = {
     } else {
       res.status(404).send('Missing Parameter');
     }
+  },
+
+  signUp: async(req, res) => {
+    let signer = req.body;
+    try {
+      let result = await BetaSignUp.signupBeta(signer);
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('big error');
+    }
   }
 }
 
@@ -31,4 +42,5 @@ module.exports.Controller = RootController;
 module.exports.controller = (app) => {
   app.get('/share', RootController.adConnect);
   app.get('/share/:driverId', RootController.adConnect);
+  app.post('/signup', RootController.signUp);
 }
