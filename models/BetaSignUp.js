@@ -28,7 +28,7 @@ const BetaDriverSchema = Schema({
     required: true
   },
   ridesPerWeek: {
-    type: Number,
+    type: String,
     required: true
   },
   cityMostDriven: {
