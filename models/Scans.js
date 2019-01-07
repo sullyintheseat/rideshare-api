@@ -12,10 +12,14 @@ const ScanSchema = Schema({
     default: null,
     required: true
   },
-  advertId:  {
+  advertiserId:  {
     type: String,
     default: null,
     required: true
+  },
+  revisit: {
+    type: Boolean,
+    defautl: false
   }
 },
 {
@@ -29,9 +33,35 @@ const ScanSchema = Schema({
 
  
 class Scan {
-
   
+  static async createScan (data) {
+    try {
+      let result = await this.create(data);
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
 
+  static async getScans(query) {
+    try {
+      let result = await this.find(query)
+      .exec()
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static async getScanBy(query) {
+    try {
+      let result = await this.find(query)
+      .exec()
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 ScanSchema.loadClass(Scan);

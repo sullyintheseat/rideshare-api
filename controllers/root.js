@@ -1,8 +1,10 @@
 const Device = require('../models/DeviceInformation');
 const Driver = require('../models/Driver');
 const BetaSignUp = require('../models/BetaSignUp');
+const Scan = require('../models/Scans');
 
 const RootController = {
+
   adConnect: async (req, res) => {
    
     let driverId = req.params;
@@ -11,12 +13,21 @@ const RootController = {
 
       let agent = await req.useragent;
       let cookies = req.cookies;
+
       let exists = Boolean(cookies['rds']);
-    
+      
       try {
       
         let lookup = await Driver.getItem(driverId);
-        res.cookie('rds', 'cookieValue')
+
+        if(exists) {
+
+        } else {
+          let device = await Device.createDevice( agent );
+          
+          res.cookie('rds', device.deviceId);
+        }
+        
         res.send(lookup);
 
       } catch (err) {
