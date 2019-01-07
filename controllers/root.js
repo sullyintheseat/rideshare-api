@@ -23,9 +23,10 @@ const RootController = {
         if(exists) {
 
         } else {
-          let device = await Device.createDevice( agent );
           
+          let device = await Device.createDevice( agent );
           res.cookie('rds', device.deviceId);
+          
         }
         
         res.send(lookup);
