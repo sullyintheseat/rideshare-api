@@ -17,6 +17,21 @@ const VehicleSchema = Schema({
     type: String,
     index: true,
     unique: true
+  },
+  year:  {
+    type: String,
+    index: true,
+    unique: true
+  },
+  model:  {
+    type: String,
+    index: true,
+    unique: true
+  },
+  make:  {
+    type: String,
+    index: true,
+    unique: true
   }
 },
 {

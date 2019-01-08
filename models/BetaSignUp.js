@@ -9,7 +9,12 @@ const BetaDriverSchema = Schema({
     unique: true,
     index: true
   },
-  name: {
+  firstName: {
+    type: String,
+    default: null,
+    required: true
+  },
+  lastName: {
     type: String,
     default: null,
     required: true
@@ -43,6 +48,10 @@ const BetaDriverSchema = Schema({
     type: String,
     default: true
   },
+  active: {
+    type: Boolean,
+    default: false
+  }
 
 },
 {
