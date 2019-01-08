@@ -21,17 +21,23 @@ const RootController = {
         let lookup = await Driver.getItem(driverId);
 
         if(exists) {
-
+          let device = await Device.getDeviceData(cookies['rds']);
+          if(device.length > 0) {
+            //create scan record new
+          } else {  
+            // create second visit
+          }
+          res.send('the data needed to move forward');
         } else {
-          
           let device = await Device.createDevice( agent );
-          res.cookie('rds', device.deviceId);
-          
+          res.cookie('rds', `${device.deviceId}`);
+          res.send('ok');
         }
         
-        res.send(lookup);
+        
 
       } catch (err) {
+        console.log(err);
         res.status(500).send('big error');
       }
     } else {
