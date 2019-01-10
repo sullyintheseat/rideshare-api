@@ -71,5 +71,5 @@ module.exports.controller = (app) => {
   app.get('/share', RootController.adConnect);
   app.get('/share/:driverId', RootController.adConnect);
   app.post('/signup', RootController.signUp);
-  app.get('/beta/:id', RootController.lookUp);
+  app.get('/signup/:id', RootController.lookUp);
 }
