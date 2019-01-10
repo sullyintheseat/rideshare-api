@@ -126,7 +126,7 @@ class Driver {
         .populate({
           path: 'vehicles',
           model: 'Vehicle',
-          select : 'plate vehicleId',
+          select : 'plate vehicleId year model make',
           match: {
               driverId: driverId
           },
