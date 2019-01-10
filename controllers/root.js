@@ -57,7 +57,6 @@ const RootController = {
 
   lookUp: async(req, res) => {
     let id = req.params.id;
-    console.log(id);
     try {
       let result =  await BetaSignUp.getBetaProfile(id);
       res.status(200).send(result);
