@@ -57,7 +57,6 @@ const BetaDriverSchema = Schema({
   timestamps: true,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
-  id: false,
   collection: 'betas' 
 });
 
@@ -68,13 +67,22 @@ class BetaDriver {
   static async signupBeta(driver) {
     try {
       let result = await this.create(driver);
-      console.log(result);
       return result;
     } catch (err) {
       return err;
     }
   }
 
+  static async getBetaProfile(id) {
+    try {
+      let result = await this.findOne({_id: id})
+      .exec();
+      
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 BetaDriverSchema.loadClass(BetaDriver);

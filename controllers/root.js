@@ -53,6 +53,17 @@ const RootController = {
     } catch (err) {
       res.status(500).send('big error');
     }
+  },
+
+  lookUp: async(req, res) => {
+    let id = req.params.id;
+    console.log(id);
+    try {
+      let result =  await BetaSignUp.getBetaProfile(id);
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('big error');
+    }
   }
 }
 
@@ -61,4 +72,5 @@ module.exports.controller = (app) => {
   app.get('/share', RootController.adConnect);
   app.get('/share/:driverId', RootController.adConnect);
   app.post('/signup', RootController.signUp);
+  app.get('/beta/:id', RootController.lookUp);
 }
