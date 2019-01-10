@@ -72,7 +72,19 @@ class Vehicle {
       return err;
     }
   }
-
+  static async updateVehicle(data) {
+    try {
+      return await this.findOneAndUpdate(
+        {
+          vehicleId : data.vehicleId
+        },
+        data,
+        {new: true})
+        .exec()
+    } catch (err) {
+      return err;
+    }
+  }
   static async deleteVehicle(data){
     try {
 
