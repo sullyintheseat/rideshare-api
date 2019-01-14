@@ -55,10 +55,29 @@ class Vehicle {
     }
   }
   
-  static async getVehicle() {
+  static async getVehicles() {
     try {
       return await this.find()
       .populate('driver')
+      .exec()
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async getVehicleWithDriver(id) {
+    try {
+      return await this.findOne({_id: id})
+      .populate('driver')
+      .exec()
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async getVehicle(id) {
+    try {
+      return await this.findOne({_id: id})
       .exec()
     } catch (err) {
       return err;

@@ -51,13 +51,18 @@ const BetaDriverSchema = Schema({
   active: {
     type: Boolean,
     default: false
+  },
+  redeemed: {
+    type: Boolean,
+    default: false
   }
 },
 {
   timestamps: true,
+  id: false,
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
-  collection: 'betas' 
+  collection: 'betas'
 });
 
 
@@ -75,14 +80,26 @@ class BetaDriver {
 
   static async getBetaProfile(id) {
     try {
-      let result = await this.findOne({_id: id})
-      .exec();
-      
+      let result = await this.findOne({betaId: id})
+        .exec();
       return result;
     } catch (err) {
       return err;
     }
   }
+
+  static async deleteUser(id) {
+  
+    try {
+      let result = await this.findOne({_id: id})
+        .exec();  
+      return result;
+    } catch (err) {
+      return err;
+    }
+
+  }
+
 }
 
 BetaDriverSchema.loadClass(BetaDriver);
