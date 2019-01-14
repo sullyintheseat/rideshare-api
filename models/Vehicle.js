@@ -68,7 +68,7 @@ class Vehicle {
   static async getVehicleWithDriver(id) {
     try {
       return await this.findOne({_id: id})
-      .populate('driver')
+      .populate('driver') 
       .exec()
     } catch (err) {
       return err;
