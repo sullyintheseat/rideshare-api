@@ -80,7 +80,7 @@ class BetaDriver {
 
   static async getBetaProfile(id) {
     try {
-      let result = await this.findOne({_id: id})
+      let result = await this.findOne({betaId: id})
         .exec();
       return result;
     } catch (err) {
