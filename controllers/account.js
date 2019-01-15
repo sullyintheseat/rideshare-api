@@ -1,10 +1,19 @@
 const Driver = require('../models/Driver');
 const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
-const VehicleController = require('./vehicle');
+const Vehicle = require('../models/Vehicle');
 
 const AccountController = {
   
+  getBetaProfile: async (req, res) => {
+    let data = req.body;
+    try {
+      return await BetaSignUp.getBetaProfile(req.params.id);
+    } catch (error) {
+      res.status(500).send('Unkownn Server Error');
+    }
+  },
+
   createDriver: async (req, res) => {
     let data = req.body;
     try {
@@ -105,12 +114,15 @@ const AccountController = {
 module.exports.Controller = AccountController;
 module.exports.controller = (app) => {
 
+  // call for beta signup profile data.
+  app.get('/code/:id', AccountController.getBetaProfile);
+  // calls for user account settings
   app.post('/accountSettings/user', AccountController.createDriver);
   app.get('/accountSettings/user/:id', AccountController.getDriver);
   app.get('/accountSettings/users', AccountController.getDrivers);
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
-
+  // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);
   app.put('/accountSettings/vehicle', AccountController.updateVehicle);
   app.get('/accountSettings/vehicle', AccountController.getVehicle);
