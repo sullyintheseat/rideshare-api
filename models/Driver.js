@@ -89,7 +89,7 @@ class Driver {
     }
   }
 
-  static async createItem(data) {
+  static async createDriver(data) {
     try {
       return await this.create(data);
     } catch (err) {
@@ -133,6 +133,21 @@ class Driver {
           },
         }).exec()
         return driver;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async updateDriver(driver) {
+    try {
+      let update = await this.findOneAndUpdate(
+        {
+          _id : data.id
+        },
+        data,
+        {new: true})
+        .exec()
+      return update;
     } catch (err) {
       return err;
     }
