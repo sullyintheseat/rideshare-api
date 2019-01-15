@@ -10,7 +10,7 @@ const AccountController = {
     try {
       return await BetaSignUp.getBetaProfile(req.params.id);
     } catch (error) {
-      res.status(500).send('Unkownn Server Error');
+      res.status(500).send('Unknown Server Error');
     }
   },
 
@@ -19,7 +19,7 @@ const AccountController = {
     try {
       return await Driver.createDriver(data);
     } catch (error) {
-      res.status(500).send('Unkownn Server Error');
+      res.status(500).send('Unknown Server Error');
     }
   },
 
@@ -28,7 +28,7 @@ const AccountController = {
       let drivers = await Driver.getDrivers();
       res.status(200).send(drivers);
     } catch (error) {
-      res.status(500).send('Unkownn Server Error');
+      res.status(500).send('Unknown Server Error');
     }
   },
 
@@ -37,7 +37,7 @@ const AccountController = {
       let driver = await Driver.getDriver(req.params.id);
       res.status(200).send(driver);
     } catch (error) {
-      res.status(500).send('Unkownn Server Error');
+      res.status(500).send('Unknown Server Error');
     }
   },
 
@@ -47,7 +47,7 @@ const AccountController = {
       let updatedDriver = await Driver.updateDriver(driver)
       res.status(200).send(updatedDriver);
     } catch (error) {
-      res.status(500).send('Unkownn Server Error');
+      res.status(500).send('Unknown Server Error');
     }
   },
 
@@ -57,7 +57,7 @@ const AccountController = {
       res.status(200).send('It sleeps with the fishes');
 
     } catch (error) {
-      res.status(500).send('Unkownn Server Error');
+      res.status(500).send('Unknown Server Error');
     }
   },
 
