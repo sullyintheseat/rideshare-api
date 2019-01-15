@@ -1,6 +1,7 @@
 const Driver = require('../models/Driver');
 const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
+const VehicleController = require('./vehicle');
 
 const AccountController = {
   
@@ -43,7 +44,8 @@ const AccountController = {
 
   deleteDriver: async (req, res) => {
     try {
-      let invalidated = await Driver.deleteDriver(req.params.id);
+      await Driver.deleteDriver(req.params.id);
+      res.status(200).send('It sleeps with the fishes');
 
     } catch (error) {
       res.status(500).send('Unkownn Server Error');
@@ -59,5 +61,10 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/users', AccountController.getDrivers);
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
+
+  app.post('/accountSettings/vehicle', VehicleController.createVehicle);
+  app.put('/accountSettings/vehicle', VehicleController.updateVehicle);
+  app.get('/accountSettings/vehicle', VehicleController.getVehicle);
+  app.get('/accountSettings/vehicle/:vehicleId', VehicleController.getVehicle);
 
 }
