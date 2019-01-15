@@ -50,6 +50,55 @@ const AccountController = {
     } catch (error) {
       res.status(500).send('Unkownn Server Error');
     }
+  },
+
+  createVehicle: async(req, res) => {
+    let vehicle = req.body;
+    let driverId = vehicle.driverId;
+    try {
+      let driver = await Driver.driverExists(driverId);
+      if(driver){
+        if(vehicle) {
+          let newvehicle = await Vehicle.createVehicle(vehicle);
+          res.status(200).send(newvehicle);
+        } else {
+          res.status(401).send('Incomplete data');
+        }
+      } else {
+        res.status(400).send('Driver does not exist');
+      }
+    } catch (err) {
+      res.status(500).send('Unknown server error');
+    }
+  },
+
+  updateVehicle: async(req, res) => {
+    let vehicle = req.body;
+    let driverId = vehicle.driverId;
+    try {
+      let driver = await Driver.driverExists(driverId);
+      if(driver){
+        if(vehicle) {
+          let newvehicle = await Vehicle.updateVehicle(vehicle);
+          res.status(200).send(newvehicle);
+        } else {
+          res.status(401).send('Incomplete data');
+        }
+      } else {
+        res.status(400).send('Driver does not exist');
+      }
+    } catch (err) {
+      res.status(500).send('Unknown server error');
+    }
+  },
+
+  getVehicle: async(req, res) => {
+    try {
+     let result = await Vehicle.getVehicle();
+     res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown server error');
+    }
   }
 }
 
@@ -62,9 +111,9 @@ module.exports.controller = (app) => {
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
 
-  app.post('/accountSettings/vehicle', VehicleController.createVehicle);
-  app.put('/accountSettings/vehicle', VehicleController.updateVehicle);
-  app.get('/accountSettings/vehicle', VehicleController.getVehicle);
-  app.get('/accountSettings/vehicle/:vehicleId', VehicleController.getVehicle);
+  app.post('/accountSettings/vehicle', AccountController.createVehicle);
+  app.put('/accountSettings/vehicle', AccountController.updateVehicle);
+  app.get('/accountSettings/vehicle', AccountController.getVehicle);
+  app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);
 
 }
