@@ -61,7 +61,7 @@ const DriverSchema = Schema({
   id: false,
   collection: 'drivers' 
 });
-DriverSchema.index({ "first": 1, "last": 1}, { "unique": true });
+
 DriverSchema.virtual('vehicles', {
  ref: 'Vehicle',
  localField: 'driverId',
