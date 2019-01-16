@@ -30,11 +30,11 @@ const DriverSchema = Schema({
     type: String,
     default: null
   },
-  street_1: {
+  address : {
     type: String,
     required: true
   },
-  street_2: {
+  address_2: {
     type: String,
   },
   city: {
