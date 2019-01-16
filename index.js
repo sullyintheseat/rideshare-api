@@ -10,8 +10,6 @@ const app = express();
 const useragent = require('express-useragent');
 const cookieParser = require('cookie-parser');
 
-
-// establish db connection and pass to other classes to share
 const dbPath = process.env.MONGODB_URI;
 const db = mongoose.connection;
 
@@ -33,7 +31,7 @@ var xPolicy			    = function (req, res, next) {
 	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
 	res.header("Access-Control-Allow-Credentials" ,"true");
 	//res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token, X-CSRF-TOKEN, api-key");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token, X-CSRF-TOKEN, api-key, authorization, content-type");
   	next();
 };
 app.use(xPolicy);
