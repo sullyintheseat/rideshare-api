@@ -8,7 +8,8 @@ const AccountController = {
   getBetaProfile: async (req, res) => {
     let data = req.body;
     try {
-      return await BetaSignUp.getBetaProfile(req.params.id);
+      let profle = await BetaSignUp.getBetaProfile(req.params.id);
+      res.status(200).send(profle);
     } catch (error) {
       res.status(500).send('Unknown Server Error');
     }
@@ -17,7 +18,8 @@ const AccountController = {
   createDriver: async (req, res) => {
     let data = req.body;
     try {
-      return await Driver.createDriver(data);
+      let driver =  await Driver.createDriver(data);
+      res.status(200).send(driver);
     } catch (error) {
       res.status(500).send('Unknown Server Error');
     }
@@ -122,6 +124,7 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/users', AccountController.getDrivers);
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
+
   // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);
   app.put('/accountSettings/vehicle', AccountController.updateVehicle);
