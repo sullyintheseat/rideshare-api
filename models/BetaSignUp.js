@@ -30,7 +30,7 @@ const BetaDriverSchema = Schema({
     default: true,
     required: true
   },
-  isUber: {
+  rideShare: {
     type: Boolean,
     default: true,
     required: true
