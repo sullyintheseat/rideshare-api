@@ -18,6 +18,9 @@ const VehicleSchema = Schema({
     index: true,
     unique: true
   },
+  color: {
+    type: String
+  },
   year:  {
     type: String
   },
