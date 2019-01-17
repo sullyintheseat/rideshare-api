@@ -55,7 +55,9 @@ const AccountController = {
 
   deleteDriver: async (req, res) => {
     try {
-      await Driver.deleteDriver(req.params.id);
+      let result = await Driver.deleteDriver(req.params.id);
+
+      console.log(result);
       res.status(200).send('It sleeps with the fishes');
 
     } catch (error) {

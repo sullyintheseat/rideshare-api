@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const shortId = require('shortid');
 const Vehicle = require('./Vehicle');
-
+const ObjectId = mongoose.Types.ObjectId;
 const DriverSchema = Schema({
   driverId: {
     type: String,
@@ -100,7 +100,7 @@ class Driver {
 
   static async driverExists(driverId) {
     try {
-      let driver =  await this.findOne({driverId: driverId})
+      let driver = await this.findOne({driverId: driverId})
       .exec()
       if(driver) { 
         return true;
@@ -146,19 +146,17 @@ class Driver {
     }
   }
 
-  static async deleteDriver(driverId) {
+  static async deleteDriver(id) {
     try {
-      let driver = await this.fincOne({_id: driverId})
-        .exec();
-      
-      let short = driver.driverId;
+      let me = await this.findOne({_id:  ObjectId(id)})
+      let short = me.driverId;
       try {
         await Vehicle.deleteVehicles(short);
       } catch (err) {
         return err;
       };
 
-      return await this.findByIdAndRemove({_id: driverId});
+      return await this.findByIdAndRemove({_id: id});
     } catch (err) {
       return err;
     }
