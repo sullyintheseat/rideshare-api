@@ -113,7 +113,7 @@ class Driver {
 
   static async deleteDriver(driverId) {
     try {
-      return true;
+      return await this.findByIdAndRemove({_id: driverId});
     } catch (err) {
       return err;
     }
