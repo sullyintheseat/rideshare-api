@@ -144,7 +144,7 @@ class Driver {
     try {
       let update = await this.findOneAndUpdate(
         {
-          _id : data.id
+          _id : data._id
         },
         data,
         {new: true})
