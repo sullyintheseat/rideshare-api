@@ -72,7 +72,7 @@ DriverSchema.virtual('vehicles', {
 
 class Driver {
 
-  static async getItems() {
+  static async getDrivers() {
     try {
       return await this.find()
       .exec()
@@ -81,9 +81,9 @@ class Driver {
     }
   }  
   
-  static async getItem(driverId) {
+  static async getDriver(driverId) {
     try {
-      return await this.findOne(driverId)
+      return await this.findOne({driverId})
       .exec()
     } catch (err) {
       return err;
@@ -148,7 +148,11 @@ class Driver {
 
   static async deleteDriver(id) {
     try {
-      let me = await this.findOne({_id:  ObjectId(id)})
+      let me = await this.findOne({_id:  ObjectId(id)});
+
+      if(!Boolean(me)) {
+        return 'User not found';
+      }
       let short = me.driverId;
       try {
         await Vehicle.deleteVehicles(short);
@@ -156,7 +160,10 @@ class Driver {
         return err;
       };
 
-      return await this.findByIdAndRemove({_id: id});
+      await this.findByIdAndRemove({_id: id});
+
+      return 'User deleted';
+
     } catch (err) {
       return err;
     }
