@@ -90,6 +90,15 @@ class Driver {
     }
   }
 
+  static async getDriverByName(name) {
+    try {
+      return await this.findOne({username: name})
+      .exec()
+    } catch (err) {
+      return err;
+    }
+  }
+
   static async createDriver(data) {
     try {
       return await this.create(data);

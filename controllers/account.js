@@ -35,9 +35,20 @@ const AccountController = {
   },
 
   getDriver: async (req, res) => {
+    let driverId = req.params.id;
+    let driver;
+
     try {
-      let driver = await Driver.getDriver(req.params.id);
-      res.status(200).send(driver);
+      driver = await Driver.getDriver(driverId);
+      if(!Boolean(driver)){
+        driver = await Driver.getDriverByName(driverId)
+      };
+      if(!Boolean(driver)){
+        res.status(401).send('User not found');
+      }  else {
+        res.status(200).send(driver);
+      }
+      
     } catch (error) {
       res.status(500).send('Unknown Server Error');
     }
@@ -124,6 +135,7 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/users', AccountController.getDrivers);
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
+  app.get('/accountSettings/user/:username', AccountController.getDriver);
 
   // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);
