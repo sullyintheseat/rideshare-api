@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const shortId = require('shortid');
+const Vehicle = require('./Vehicle');
 
 const DriverSchema = Schema({
   driverId: {
@@ -111,14 +112,6 @@ class Driver {
     }
   }
 
-  static async deleteDriver(driverId) {
-    try {
-      return await this.findByIdAndRemove({_id: driverId});
-    } catch (err) {
-      return err;
-    }
-  }
-
   static async getDriverProfile(driverId) {
     try {
       console.log(driverId); 
@@ -148,6 +141,24 @@ class Driver {
         {new: true})
         .exec()
       return update;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async deleteDriver(driverId) {
+    try {
+      let driver = this.fincOne({_id: driverId})
+        .exec();
+
+      let short = driver.driverId;
+      try {
+        await Vehicle.deleteVehicles(short);
+      } catch (err) {
+        return err;
+      };
+
+      return await this.findByIdAndRemove({_id: driverId});
     } catch (err) {
       return err;
     }
