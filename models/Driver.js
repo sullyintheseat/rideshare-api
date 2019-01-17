@@ -150,7 +150,7 @@ class Driver {
     try {
       let driver = await this.fincOne({_id: driverId})
         .exec();
-
+      
       let short = driver.driverId;
       try {
         await Vehicle.deleteVehicles(short);

@@ -118,7 +118,7 @@ class Vehicle {
 
   static async deleteVehicles(driverId){
     try {
-      return await this.findOne({driverId}).remove().exec();
+      await this.findOne({driverId}).remove().exec();
     } catch (err) {
       return err;
     }
