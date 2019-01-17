@@ -148,7 +148,7 @@ class Driver {
 
   static async deleteDriver(driverId) {
     try {
-      let driver = this.fincOne({_id: driverId})
+      let driver = await this.fincOne({_id: driverId})
         .exec();
 
       let short = driver.driverId;
