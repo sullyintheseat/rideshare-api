@@ -89,7 +89,8 @@ class Vehicle {
 
   static async createVehicle(data) {
     try {
-      return await this.create(data);
+      return await this.create(data)
+        .exec();
     } catch (err) {
       return err;
     }
