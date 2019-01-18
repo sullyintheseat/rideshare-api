@@ -110,7 +110,7 @@ class Driver {
 
   static async driverExists(driverId) {
     try {
-      let driver = await this.findOne({driverId: driverId})
+      let driver = await this.findOne({_id: driverId})
       .exec()
       if(driver) { 
         return true;
