@@ -56,8 +56,9 @@ const AccountController = {
 
   updateDriver: async (req, res) => {
     let driver = req.body;
+    let id = req.params.id;
     try {
-      let updatedDriver = await Driver.updateDriver(driver)
+      let updatedDriver = await Driver.updateDriver(id, driver)
       res.status(200).send(updatedDriver);
     } catch (error) {
       res.status(500).send('Unknown Server Error');
@@ -96,12 +97,13 @@ const AccountController = {
 
   updateVehicle: async(req, res) => {
     let vehicle = req.body;
+    let id = req.params.id;
     let driverId = vehicle.driverId;
     try {
       let driver = await Driver.driverExists(driverId);
       if(driver){
         if(vehicle) {
-          let newvehicle = await Vehicle.updateVehicle(vehicle);
+          let newvehicle = await Vehicle.updateVehicle(id, vehicle);
           res.status(200).send(newvehicle);
         } else {
           res.status(401).send('Incomplete data');
@@ -133,13 +135,13 @@ module.exports.controller = (app) => {
   app.post('/accountSettings/user', AccountController.createDriver);
   app.get('/accountSettings/user/:id', AccountController.getDriver);
   app.get('/accountSettings/users', AccountController.getDrivers);
-  app.put('/accountSettings/user/', AccountController.updateDriver);
+  app.put('/accountSettings/user/:id', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
   app.get('/accountSettings/user/:username', AccountController.getDriver);
 
   // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);
-  app.put('/accountSettings/vehicle', AccountController.updateVehicle);
+  app.put('/accountSettings/vehicle/:id', AccountController.updateVehicle);
   app.get('/accountSettings/vehicle', AccountController.getVehicle);
   app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);
 

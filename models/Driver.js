@@ -141,11 +141,11 @@ class Driver {
     }
   }
 
-  static async updateDriver(data) {
+  static async updateDriver(id, data) {
     try {
       let update = await this.findOneAndUpdate(
         {
-          _id : data._id
+          _id : id
         },
         data,
         {new: true})

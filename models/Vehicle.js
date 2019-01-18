@@ -94,11 +94,11 @@ class Vehicle {
       return err;
     }
   }
-  static async updateVehicle(data) {
+  static async updateVehicle(id, data) {
     try {
       return await this.findOneAndUpdate(
         {
-          vehicleId : data.vehicleId
+          _id : id
         },
         data,
         {new: true})
