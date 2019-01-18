@@ -63,6 +63,16 @@ const RootController = {
     } catch (err) {
       res.status(500).send('big error');
     }
+  },
+
+  getAllSigners: async(req, res) => {
+    try {
+      let result =  await BetaSignUp.getAllSigners();
+
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('big error');
+    }
   }
 }
 
@@ -72,4 +82,5 @@ module.exports.controller = (app) => {
   app.get('/share/:driverId', RootController.adConnect);
   app.post('/signup', RootController.signUp);
   app.get('/code/:id', RootController.lookUp);
+  app.get('/xyzzy/', RootController.getAllSigners);
 }

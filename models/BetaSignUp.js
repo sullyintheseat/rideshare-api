@@ -80,6 +80,16 @@ class BetaDriver {
     }
   }
 
+  static async getAllBeta(){
+    try {
+      let result = await this.find()
+        .exec();
+      return result;
+    } catch (err) {
+      return err;
+    }
+  }
+
   static async getBetaProfile(id) {
     try {
       let result = await this.findOne({betaId: id})
