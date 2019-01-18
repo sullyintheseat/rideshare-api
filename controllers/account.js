@@ -123,6 +123,15 @@ const AccountController = {
     } catch (err) {
       res.status(500).send('Unknown server error');
     }
+  },
+
+  getDriversVehicles: async(req, res) => {
+    try {
+      let result = await Vehicle.getVehiclesByDriver(req.params.id);
+      res.status(200).send(result);
+     } catch (err) {
+       res.status(500).send('Unknown server error');
+     }
   }
 }
 
@@ -139,10 +148,13 @@ module.exports.controller = (app) => {
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
   app.get('/accountSettings/user/:username', AccountController.getDriver);
 
+  app.get('/accountSettings/user/:id/vehicles', AccountController.getDriversVehicles);
+
   // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);
   app.put('/accountSettings/vehicle/:id', AccountController.updateVehicle);
   app.get('/accountSettings/vehicle', AccountController.getVehicle);
+  app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);
   app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);
 
 }
