@@ -10,7 +10,7 @@ const VehicleSchema = Schema({
     index: true
   },
   driverId: {
-    type: String,
+    type: Schema.Types.ObjectId,
     index: true
   },
   plate:  {
