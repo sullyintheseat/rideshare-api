@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const shortId = require('shortid');
 const Vehicle = require('./Vehicle');
 const ObjectId = mongoose.Types.ObjectId;
+
 const DriverSchema = Schema({
   driverId: {
     type: String,
@@ -140,7 +141,7 @@ class Driver {
     }
   }
 
-  static async updateDriver(driver) {
+  static async updateDriver(data) {
     try {
       let update = await this.findOneAndUpdate(
         {
