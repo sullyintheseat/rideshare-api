@@ -67,7 +67,7 @@ const RootController = {
 
   getAllSigners: async(req, res) => {
     try {
-      let result =  await BetaSignUp.getAllSigners();
+      let result =  await BetaSignUp.getAllBeta();
 
       res.status(200).send(result);
     } catch (err) {
