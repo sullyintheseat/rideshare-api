@@ -27,6 +27,10 @@ const BetaDriverSchema = Schema({
     unique: true,
     required: true
   },
+  referralCode: {
+    type: String,
+    default: null
+  },
   inDfw: {
     type: Boolean,
     default: true,
