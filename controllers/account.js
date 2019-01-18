@@ -133,7 +133,7 @@ module.exports.controller = (app) => {
   app.post('/accountSettings/user', AccountController.createDriver);
   app.get('/accountSettings/user/:id', AccountController.getDriver);
   app.get('/accountSettings/users', AccountController.getDrivers);
-  app.put('/accountSettings/user/:id', AccountController.updateDriver);
+  app.put('/accountSettings/user/', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
   app.get('/accountSettings/user/:username', AccountController.getDriver);
 
