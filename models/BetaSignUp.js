@@ -9,15 +9,17 @@ const BetaDriverSchema = Schema({
     unique: true,
     index: true
   },
+  name: {
+    type: String,
+    default: null
+  },
   firstName: {
     type: String,
-    default: null,
-    required: true
+    default: null
   },
   lastName: {
     type: String,
-    default: null,
-    required: true
+    default: null
   },
   email: {
     type: String,
