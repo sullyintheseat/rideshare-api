@@ -2,6 +2,7 @@ const Device = require('../models/DeviceInformation');
 const Driver = require('../models/Driver');
 const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
+const moment = require('moment');
 
 const RootController = {
 
@@ -73,11 +74,28 @@ const RootController = {
     } catch (err) {
       res.status(500).send('big error');
     }
+  },
+
+  returnMonth: (req, res) => {
+    let {year, month} = req.body;
+    let firstDay = new Date(`${year},${month},1`);
+    let nextMonth = parseFloat(month) + 1;
+    if(nextMonth == 13) {
+      nextMonth = 1;
+      year ++;
+    }
+    let lastDay = new Date(`${year},${nextMonth},1`);
+    firstDay = moment(firstDay).format('YYYY-MM-DD');
+    lastDay = moment(lastDay).format('YYYY-MM-DD');
+
+    res.status(200).send( { firstday: `${firstDay}T00:00:00.000Z`, lastday: `${lastDay}T23:59:59.999Z` } )
   }
+
 }
 
 module.exports.Controller = RootController;
 module.exports.controller = (app) => {
+  app.post('/monthStartFinish', RootController.returnMonth)
   app.get('/share', RootController.adConnect);
   app.get('/share/:driverId', RootController.adConnect);
   app.post('/signup', RootController.signUp);
