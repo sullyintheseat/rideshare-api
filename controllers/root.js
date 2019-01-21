@@ -71,7 +71,7 @@ const RootController = {
       let result =  await BetaSignUp.getAllBeta();
       let str;
       for (let i = 0; i < result.length; i++){
-        str+= `${result[i].firstName},${result[i].lastName},${result[i].email},${result[i].referralCode}/n`;
+        str+= `${result[i].firstName},${result[i].lastName},${result[i].email},${result[i].referralCode}\n`;
       }
       res.status(200).send(str);
     } catch (err) {
