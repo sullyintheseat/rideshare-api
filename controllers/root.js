@@ -69,11 +69,11 @@ const RootController = {
   getAllSigners: async(req, res) => {
     try {
       let result =  await BetaSignUp.getAllBeta();
-      let str;
+      let str = "";
       for (let i = 0; i < result.length; i++){
-        str+= `${result[i].firstName},${result[i].lastName},${result[i].email},${result[i].referralCode}\n`;
+        str+= result[i].firstName + ',' +result[i].lastName + ',' +result[i].email + ',' + result[i].referralCode + '\n';
       }
-      res.status(200).send(str);
+      res.type('txt').send(str);
     } catch (err) {
       res.status(500).send('big error');
     }
