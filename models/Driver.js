@@ -82,9 +82,9 @@ class Driver {
     }
   }  
   
-  static async getDriver(driverId) {
+  static async getDriver(_id) {
     try {
-      return await this.findOne({driverId})
+      return await this.findOne(_id)
       .exec()
     } catch (err) {
       return err;

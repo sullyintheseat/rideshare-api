@@ -17,26 +17,28 @@ const DriverController = {
   },
 
   getDriver: async(req, res) => {
-    let driverId = req.params;
-    let result;
+    let id = req.params.id;
     try{
-      if(driverId !== null || driverId !== undefined){
-        result = await Driver.getItem(driverId)
+      
+      let result;
+      if(Boolean(id)){
+        result = await Driver.getDriver({_id: id})
       } else {
-        result = await Driver.getItems();
+        result = await Driver.getDrivers();
       }
       res.status(200).send(result);
     } catch (err) {
+      console.log(err)
       res.status(500).send('Unknown Server Response');
     }
   },
 
   getDriverFull: async(req, res) => {
-    let driverId = req.params.driverId;
+    let driverId = req.params;
     let result;
     try{
       if(driverId !== null || driverId !== undefined){
-        result = await Driver.getDriverProfile(driverId);
+        result = await Driver.getDriverProfile({_id:driverId});
       } else {
         res.status(200).send('Missing driver information');
       }
@@ -60,7 +62,7 @@ module.exports.Controller = DriverController;
 module.exports.controller = (app) => {
   app.post('/driver', DriverController.createUser);
   app.get('/driver', DriverController.getDriver);
-  app.get('/driver/:driverId', DriverController.getDriver);
+  app.get('/driver/:id', DriverController.getDriver);
   
   //administration or driver personal call
   app.get('/driver/:driverId/full', DriverController.getDriverFull);

@@ -48,7 +48,7 @@ VehicleSchema.virtual('driver', {
  
 class Vehicle {
 
-  static async getVehiclesByDriver(driverId) {
+  static async getVehiclesByDriverShort(driverId) {
     try {
       return await this.find({driverId: driverId})
       .populate('driver')
