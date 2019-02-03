@@ -104,6 +104,20 @@ class BetaDriver {
     }
   }
 
+  static async getBetaIdFor(email){
+    try {
+      let result = await this.findOne(email)
+        .exec();
+        if(Boolean(result)){
+          return result.betaId;
+        } else {
+          return null;
+        }
+    } catch (err) {
+      return err;
+    }
+  }
+
   static async deleteUser(id) {
   
     try {

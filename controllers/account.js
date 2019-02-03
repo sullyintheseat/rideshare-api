@@ -6,13 +6,19 @@ const Vehicle = require('../models/Vehicle');
 const AccountController = {
   
   getBetaProfile: async (req, res) => {
-    let data = req.body;
+    
+    let id = req.params.id;
     try {
-      let profle = await BetaSignUp.getBetaProfile(req.params.id);
-      res.status(200).send(profle);
-    } catch (error) {
-      res.status(500).send('Unknown Server Error');
+      let result =  await BetaSignUp.getBetaProfile(id);
+      if(Boolean(result)) {
+        res.status(200).send(result);
+      } else {
+        res.status(400).send('User not found');
+      }
+    } catch (err) {
+      res.status(500).send('big error');
     }
+    
   },
 
   createDriver: async (req, res) => {

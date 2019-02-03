@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const shortId = require('shortid');
 const Vehicle = require('./Vehicle');
+const passport = require('passport');
+const verifyAuth = require('../passport/auth').verifyAuth(passport);
+
 const ObjectId = mongoose.Types.ObjectId;
 
 const DriverSchema = Schema({
@@ -11,11 +14,11 @@ const DriverSchema = Schema({
     unique: true,
     index: true
   },
-  first_name: {
+  firstName: {
     type: String,
     required: true
   },
-  last_name: {
+  lastName: {
     type: String,
     required: true
   },
@@ -27,6 +30,9 @@ const DriverSchema = Schema({
   email: {
     type: String,
     required: true
+  },
+  key: {
+    type: String,
   },
   username: {
     type: String,

@@ -3,8 +3,27 @@ const Driver = require('../models/Driver');
 const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
 const moment = require('moment');
+const BetaTags = require('../models/BetaTags')
 
 const RootController = {
+
+  createBetaTags: async (req, res) => {
+    try {
+      let result = await BetaTags.createBetaTags(req.body.prefix, req.body.count);
+      res.status(200).send(result);
+    } catch (error){
+      res.status(500).send('big error');
+    }
+  },
+
+  getBetaTagUrls: async(req,res) => {
+    try {
+      let result = await BetaTags.getBetaTagUrls();
+      res.status(200).send(result);
+    } catch (error){
+      res.status(500).send('big error');
+    }
+  },
 
   adConnect: async (req, res) => {
    
@@ -57,6 +76,7 @@ const RootController = {
   },
 
   lookUp: async(req, res) => {
+    console.log('test');
     let id = req.params.id;
     try {
       let result =  await BetaSignUp.getBetaProfile(id);
@@ -92,16 +112,35 @@ const RootController = {
     lastDay = moment(lastDay).format('YYYY-MM-DD');
 
     res.status(200).send( { firstday: `${firstDay}T00:00:00.000Z`, lastday: `${lastDay}T23:59:59.999Z` } )
+  },
+
+  getBetaId: async (req, res) => {
+    let {email} = req.body;
+    try {
+      let result = await BetaSignUp.getBetaIdFor({email});
+      if(Boolean(result)){
+        res.status(200).send(result);
+      } else {
+        res.status(401).send('No match found');
+      }
+    } catch (err) {
+      res.status(500).send('big error');
+    }
+
   }
 
 }
 
 module.exports.Controller = RootController;
 module.exports.controller = (app) => {
+  app.post('/betatags', RootController.createBetaTags);
+  app.get('/betatags', RootController.getBetaTagUrls);
+  
+  app.post('/tagId', RootController.getBetaId);
+
   app.post('/monthStartFinish', RootController.returnMonth)
   app.get('/share', RootController.adConnect);
   app.get('/share/:driverId', RootController.adConnect);
   app.post('/signup', RootController.signUp);
-  app.get('/code/:id', RootController.lookUp);
   app.get('/xyzzy/', RootController.getAllSigners);
 }
