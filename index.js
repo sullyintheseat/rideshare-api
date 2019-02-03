@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 
 const dbPath = process.env.MONGODB_URI;
 const db = mongoose.connection;
+const cors = require('cors');
 
 mongoose.connect(dbPath, { useNewUrlParser: true } );
 
@@ -47,6 +48,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.text({ type: 'text/html' }))
 
+app.user(cors);
 app.use(cookieParser());
 
 app.all('*', function(req, res, next){ req.syspath = __dirname; next();});
