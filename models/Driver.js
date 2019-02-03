@@ -103,15 +103,28 @@ class Driver {
       return await this.findOne({username: name})
       .exec()
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
+  static async getDriverByEmail(email) {
+    try {
+      return await this.findOne({email: email})
+      .exec()
+    } catch (err) {
+      throw err;
+    }
+  }
   static async createDriver(data) {
     try {
-      return await this.create(data);
+      let exists = await this.findOne({email: data.email}).exec();
+      if(Boolean(exists)) {
+        return await this.updateDriver(exists._id, data);
+      } else {
+        return await this.create(data);
+      }
     } catch (err) {
-      return err;
+      return false;
     }
   }
 
@@ -131,7 +144,6 @@ class Driver {
 
   static async getDriverProfile(driverId) {
     try {
-      console.log(driverId); 
       let driver =  await this.findOne({driverId: driverId})
         .select('first_name last_name driverId city state zip')
         .populate({
