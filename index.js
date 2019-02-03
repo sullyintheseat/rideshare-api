@@ -12,7 +12,6 @@ const cookieParser = require('cookie-parser');
 
 const dbPath = process.env.MONGODB_URI;
 const db = mongoose.connection;
-const cors = require('cors');
 
 mongoose.connect(dbPath, { useNewUrlParser: true } );
 
@@ -28,14 +27,11 @@ db.once('open', function() {
 });
 
 var xPolicy			    = function (req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
+	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  //res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, ContentType');
-  res.header("Access-Control-Allow-Credentials" ,"true");
-  //res.header("Access-Control-Allow-Origin", "*");
-  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Credentials" ,"true");
 	//res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token, X-CSRF-TOKEN, api-key, authorization, content-type, data");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token, X-CSRF-TOKEN, api-key, authorization, content-type");
   	next();
 };
 app.use(xPolicy);
@@ -48,7 +44,6 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.text({ type: 'text/html' }))
 
-app.user(cors);
 app.use(cookieParser());
 
 app.all('*', function(req, res, next){ req.syspath = __dirname; next();});
