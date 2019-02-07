@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const shortId = require('shortid');
+const ObjectId = require('mongodb').ObjectId;
 
 const VehicleSchema = Schema({
   vehicleId: {
@@ -70,7 +71,8 @@ class Vehicle {
 
   static async getVehicleWithDriver(id) {
     try {
-      return await this.findOne({_id: id})
+
+      return await this.findOne({_id: ObjectId(id)})
       .populate('driver') 
       .exec()
     } catch (err) {

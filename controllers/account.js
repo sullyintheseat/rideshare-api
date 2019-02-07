@@ -45,10 +45,28 @@ const AccountController = {
     let driver;
 
     try {
-      driver = await Driver.getDriver(driverId);
+      driver = await Driver.getDriverProfile(driverId);
       if(!Boolean(driver)){
         driver = await Driver.getDriverByName(driverId)
       };
+      if(!Boolean(driver)){
+        res.status(401).send('User not found');
+      }  else {
+        res.status(200).send(driver);
+      }
+      
+    } catch (error) {
+      res.status(500).send('Unknown Server Error');
+    }
+  },
+
+  getDriverByEmail: async (req, res) => {
+    let driverId = req.params.id;
+    let driver;
+
+    try {
+      driver = await Driver.getDriverProfileByEmail(driverId);
+      
       if(!Boolean(driver)){
         res.status(401).send('User not found');
       }  else {
@@ -133,7 +151,7 @@ const AccountController = {
 
   getDriversVehicles: async(req, res) => {
     try {
-      let result = await Vehicle.getVehiclesByDriver(req.params.id);
+      let result = await Vehicle.getVehicleWithDriver(req.params.id);
       res.status(200).send(result);
      } catch (err) {
        res.status(500).send('Unknown server error');
@@ -149,6 +167,7 @@ module.exports.controller = (app) => {
   // calls for user account settings
   app.post('/accountSettings/user', AccountController.createDriver);
   app.get('/accountSettings/user/:id', AccountController.getDriver);
+  app.get('/accountSettings/user/:id/email', AccountController.getDriverByEmail);
   app.get('/accountSettings/users', AccountController.getDrivers);
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
   app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
@@ -159,6 +178,7 @@ module.exports.controller = (app) => {
   // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);
   app.put('/accountSettings/vehicle/:id', AccountController.updateVehicle);
+  
   app.get('/accountSettings/vehicle', AccountController.getVehicle);
   app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);
   app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);

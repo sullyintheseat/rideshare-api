@@ -61,6 +61,16 @@ const DriverSchema = Schema({
   isDeleted: {
     type: Boolean,
     default: false
+  },
+  agreement: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  signedUp: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 },
 {
@@ -73,7 +83,7 @@ const DriverSchema = Schema({
 
 DriverSchema.virtual('vehicles', {
  ref: 'Vehicle',
- localField: 'driverId',
+ localField: '_id',
  foreignField: 'driverId' 
 });
 
@@ -91,7 +101,7 @@ class Driver {
   
   static async getDriver(_id) {
     try {
-      return await this.findOne(_id)
+      return await this.findOne({_id : ObjectId(_id)})
       .exec()
     } catch (err) {
       return err;
@@ -117,6 +127,7 @@ class Driver {
   }
   static async createDriver(data) {
     try {
+      
       let exists = await this.findOne({email: data.email}).exec();
       if(Boolean(exists)) {
         return await this.updateDriver(exists._id, data);
@@ -142,16 +153,34 @@ class Driver {
     }
   }
 
-  static async getDriverProfile(driverId) {
+  static async getDriverProfile(id) {
     try {
-      let driver =  await this.findOne({driverId: driverId})
-        .select('first_name last_name driverId city state zip')
+      let driver =  await this.findOne({_id: ObjectId(id)})
+        .select('firstName lastName driverId phone address address_2 email city state zip _id')
         .populate({
           path: 'vehicles',
           model: 'Vehicle',
           select : 'plate vehicleId year model make',
           match: {
-              driverId: driverId
+              driverId: id
+          },
+        }).exec()
+        return driver;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async getDriverProfileByEmail(id) {
+    try {
+      let driver =  await this.findOne({email: id})
+        .select('firstName lastName driverId phone address address_2 email city state zip _id')
+        .populate({
+          path: 'vehicles',
+          model: 'Vehicle',
+          select : 'plate vehicleId year model make',
+          match: {
+              driverId: id
           },
         }).exec()
         return driver;
