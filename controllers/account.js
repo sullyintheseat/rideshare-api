@@ -198,7 +198,27 @@ const AccountController = {
     } catch (err) {
       res.status(401).send({value:'failed'})
     }
-  }
+  },
+
+  getDriverByAccount: async (req, res) => {
+    let driverId = req.params.id;
+    let driver;
+    let user;
+
+    try {
+      user = await User.getById(driverId);
+
+      if(!Boolean(user)){
+        res.status(401).send('User not found');
+      }  else {
+        driver = Driver.getDriverByEmail(user.email);
+        res.status(200).send(driver);
+      }
+      
+    } catch (error) {
+      res.status(500).send('Unknown Server Error');
+    }
+  },
 }
 
 module.exports.Controller = AccountController;
@@ -210,6 +230,7 @@ module.exports.controller = (app) => {
   // calls for user account settings
   app.post('/accountSettings/user', AccountController.createDriver);
   app.get('/accountSettings/user/:id', AccountController.getDriver);
+  app.get('/accountSettings/userfor/:id', AccountController.getDriverByAccount);
   app.get('/accountSettings/user/:id/email', AccountController.getDriverByEmail);
   app.get('/accountSettings/users', AccountController.getDrivers);
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
