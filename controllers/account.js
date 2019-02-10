@@ -211,7 +211,8 @@ const AccountController = {
       if(!Boolean(user)){
         res.status(401).send('User not found');
       }  else {
-        driver = Driver.getDriverByEmail(user.email);
+        console.log(user)
+        driver = await Driver.getDriverByEmail(user.email);
         res.status(200).send(driver);
       }
       
