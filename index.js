@@ -5,6 +5,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const  passport = require("passport");
+
 const fs = require('fs');
 const app = express();
 const useragent = require('express-useragent');
@@ -57,12 +59,42 @@ app.use((req, res, next) => {
     return next();
 });
 
+initPassport = () => {
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+  require("./passport/auth")(passport);
+
+  app.use(function (req, res, next) {
+    const token = req.headers["token"];
+
+    if (token) {
+      jwt.verify(token, 'FuCKM0nk3Y', function (err, decoded) {
+        if (err) {
+          jwt.verify(token, 'FuCKM0nk3Y', function (err, decoded) {
+            if (err) {
+              res.status(401);
+              return res.send(err);
+            }
+            req.decoded = decoded;
+          });
+        } else {
+          req.decoded = decoded;
+        }
+      });
+    }
+    return next();
+  });
+}
+
+
 const PORT = process.env.PORT || aport;
 let server;
 startServer = () => {
   server = app.listen(PORT);
   server.on('listening', () => {
     console.log('Server running on port:', PORT);
+    initPassport();
   });
 }
 if (process.env.MONGODB_URI) {

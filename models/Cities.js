@@ -22,6 +22,10 @@ const CitySchema = Schema({
   zip: {
     type: String,
     default: null
+  },
+  target: {
+    type: Schema.Types.ObjectId,
+    required: true
   }
 
 },

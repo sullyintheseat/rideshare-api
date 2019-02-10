@@ -2,15 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const shortId = require('shortid');
 const Vehicle = require('./Vehicle');
-const passport = require('passport');
-const verifyAuth = require('../passport/auth').verifyAuth(passport);
-
 const ObjectId = mongoose.Types.ObjectId;
 
 const DriverSchema = Schema({
   driverId: {
     type: String,
-    default: shortId.generate,
+    default: null,
     unique: true,
     index: true
   },
@@ -68,6 +65,11 @@ const DriverSchema = Schema({
     default: false
   },
   signedUp: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  hasLogin: {
     type: Boolean,
     required: true,
     default: false
@@ -188,7 +190,15 @@ class Driver {
       return err;
     }
   }
-
+  static async loginWithEmail(email) {
+    try {
+      let driver =  await this.findOne({email: email})
+        .exec()
+        return driver;
+    } catch (err) {
+      return err;
+    }
+  }
   static async updateDriver(id, data) {
     try {
       let update = await this.findOneAndUpdate(

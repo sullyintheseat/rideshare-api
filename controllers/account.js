@@ -2,6 +2,11 @@ const Driver = require('../models/Driver');
 const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
 const Vehicle = require('../models/Vehicle');
+const User = require('../models/User');
+
+const passport = require('passport');
+const ObjectId = require('mongodb').ObjectId;
+const verifyAuth = require('../passport/auth').verifyAuth(passport);
 
 const AccountController = {
   
@@ -156,6 +161,43 @@ const AccountController = {
      } catch (err) {
        res.status(500).send('Unknown server error');
      }
+  },
+
+  signup: async (req, res, next) => {
+    passport.authenticate('local-signup', { session: false }, async (err, user, info) => {
+      if (user) {
+        res.status(200).send(user);
+      } else if (info && info.message) {
+        res.status(401).send(info.message);
+      } else if (err) {
+        res.status(401).send(err);
+      } else {
+       res.status(500).send('Unknown server error');
+      }
+    })(req, res, next);
+  },
+
+  login: async (req, res, next) => {
+    passport.authenticate('local-login', { session: false }, (err, user, info) => {
+      if (user) {
+
+        res.header('token', user.token);
+        
+        res.status(200).send(user);
+      } else if (info && info.message) {
+        res.status(401).send(info.message);
+      } else {
+        res.status(500).send('Unknown server error');
+      }
+    })(req, res, next);
+  },
+
+  validornot: async (req, res) => {
+    try{
+      res.status(200).send({value:'ok'})
+    } catch (err) {
+      res.status(401).send({value:'failed'})
+    }
   }
 }
 
@@ -163,6 +205,7 @@ module.exports.Controller = AccountController;
 module.exports.controller = (app) => {
 
   // call for beta signup profile data.
+  app.get('/amvalid', verifyAuth, AccountController.validornot);
   app.get('/code/:id', AccountController.getBetaProfile);
   // calls for user account settings
   app.post('/accountSettings/user', AccountController.createDriver);
@@ -174,6 +217,8 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/user/:username', AccountController.getDriver);
 
   app.get('/accountSettings/user/:id/vehicles', AccountController.getDriversVehicles);
+  app.post('/accountSettings/signup', AccountController.signup);
+  app.post('/accountSettings/login', AccountController.login);
 
   // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);
