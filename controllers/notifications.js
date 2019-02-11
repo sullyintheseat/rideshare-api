@@ -12,7 +12,8 @@ const NotificationController = {
       reason: req.body.reason
     }
     try{
-      return await Message.createMessage(data);
+      await Message.createMessage(data);
+      res.status(200).send('ok');
     } catch (err){
       res.status(500).send(err);
     }
