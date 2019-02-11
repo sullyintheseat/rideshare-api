@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const  passport = require("passport");
 
+const jwt = require("jsonwebtoken");
 const fs = require('fs');
 const app = express();
 const useragent = require('express-useragent');
