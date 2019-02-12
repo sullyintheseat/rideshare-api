@@ -17,10 +17,20 @@ const NotificationController = {
     } catch (err){
       res.status(500).send(err);
     }
+  },
+
+  acknowledged: async (req, res) => {
+    let msg = req.body;
+    try {
+      return await Message.acknowledged(msg._id);
+    } catch (err) {
+      res.status(500).send(err);
+    }
   }
 }
 
 module.exports.Controller = NotificationController;
 module.exports.controller = (app) => {
   app.post('/msg/',verifyAuth,  NotificationController.sendMessage);
+  app.post('/msgack/',verifyAuth,  NotificationController.acknowledged);
 }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const CryptoJS = require('crypto-js');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
+
 
 const MessageSchema = Schema({
   email: {
@@ -34,6 +34,22 @@ class Message {
   static async createMessage(message) {
     try{
       return await this.create(message);
+    } catch(err) {
+      return err;
+    }
+  }
+
+  static async acknowledgeEmail(id) {
+    try{
+      let update = await this.findOneAndUpdate(
+        {
+          _id : id
+        },
+        data,
+        {new: true})
+        .exec()
+      return update;
+
     } catch(err) {
       return err;
     }

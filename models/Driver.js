@@ -7,7 +7,6 @@ const ObjectId = mongoose.Types.ObjectId;
 const DriverSchema = Schema({
   driverId: {
     type: String,
-    default: null,
     unique: true,
     index: true
   },
@@ -73,6 +72,11 @@ const DriverSchema = Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  bestContact: {
+    type: String,
+    default: 'EMAIL',
+    required: true
   }
 },
 {
@@ -190,6 +194,7 @@ class Driver {
       return err;
     }
   }
+  
   static async loginWithEmail(email) {
     try {
       let driver =  await this.findOne({email: email})
@@ -199,6 +204,7 @@ class Driver {
       return err;
     }
   }
+
   static async updateDriver(id, data) {
     try {
       let update = await this.findOneAndUpdate(
