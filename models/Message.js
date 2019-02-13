@@ -55,6 +55,14 @@ class Message {
     }
   }
 
+  static async getMessages() { 
+    try{
+
+    } catch(err) {
+      return err;
+    }
+  }
+
 }
 
 MessageSchema.loadClass(Message);

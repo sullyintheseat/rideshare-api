@@ -79,7 +79,7 @@ class User {
     try{
       return await this.findOne({_id: id})
     } catch (err){
-     return err; 
+      return err; 
     }
   }
 
@@ -102,11 +102,18 @@ class User {
     }
   }
 
-  static async updateUser(oldword, newword) {
-    try{
-
-    } catch (err){
-     return err; 
+  static async updateUser(id, data) {
+    try {
+      let update = await this.findOneAndUpdate(
+        {
+          _id : id
+        },
+        data,
+        {new: true})
+        .exec()
+      return update;
+    } catch (err) {
+      return err;
     }
   }
 

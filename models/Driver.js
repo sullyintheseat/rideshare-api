@@ -77,6 +77,11 @@ const DriverSchema = Schema({
     type: String,
     default: 'EMAIL',
     required: true
+  },
+  pickupMethod: {
+    type: String,
+    default: 'PICK_UP',
+    required: true
   }
 },
 {

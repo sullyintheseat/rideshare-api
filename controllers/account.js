@@ -240,7 +240,21 @@ const AccountController = {
     } catch(err) {
       res.status(500).send('Unknown Server Error');
     }
+  },
+
+  changeDriverPassword: async (req, res) => {
+    try{
+      let user = await User.verifyUser(req.user.email, req.body.oldPassword);
+
+      if(Boolean(user)){
+
+      }
+    } catch(err) {
+      res.status(500).send('Unknown Server Error');
+    }
   }
+
+
 
 } 
 
@@ -260,7 +274,8 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/user/:username', AccountController.getDriver);
   // Private calls
   app.get('/accountSettings/reguser', verifyAuth, AccountController.getPrivateDriver);
-  app.put('/accountSettings/reguser', verifyAuth, AccountController.updateDriverPrivate);
+  app.put('/accountSettings/reguser', verifyAuth, AccountController.updateDriverPrivate); 
+  app.put('/accountSettings/pass', verifyAuth, AccountController.changeDriverPassword); 
 
 
 
