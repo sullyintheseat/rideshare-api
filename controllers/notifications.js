@@ -19,6 +19,20 @@ const NotificationController = {
     }
   },
 
+  sendPublicMessage: async (req, res) =>{
+    
+    let data = {
+      email: req.body.email,
+      reason: req.body.reason
+    }
+    try{
+      await Message.createMessage(data);
+      res.status(200).send('ok');
+    } catch (err){
+      res.status(500).send(err);
+    }
+  },
+
   acknowledged: async (req, res) => {
     let msg = req.body;
     try {
@@ -31,6 +45,7 @@ const NotificationController = {
 
 module.exports.Controller = NotificationController;
 module.exports.controller = (app) => {
-  app.post('/msg/',verifyAuth,  NotificationController.sendMessage);
-  app.post('/msgack/',verifyAuth,  NotificationController.acknowledged);
+  app.post('/pubmsg/', NotificationController.sendPublicMessage);
+  app.post('/msg/',verifyAuth, NotificationController.sendMessage);
+  app.post('/msgack/',verifyAuth, NotificationController.acknowledged);
 }

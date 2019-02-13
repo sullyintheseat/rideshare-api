@@ -247,8 +247,9 @@ const AccountController = {
       let user = await User.verifyUser(req.user.email, req.body.oldPassword);
 
       if(Boolean(user)){
-
+        
       }
+
     } catch(err) {
       res.status(500).send('Unknown Server Error');
     }
