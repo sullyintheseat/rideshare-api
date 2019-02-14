@@ -7,8 +7,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const DriverSchema = Schema({
   driverId: {
     type: String,
-    unique: true,
-    default: shortId.generate(),
+    default: null,
     index: true
   },
   firstName: {
