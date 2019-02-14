@@ -180,9 +180,7 @@ const AccountController = {
   login: async (req, res, next) => {
     passport.authenticate('local-login', { session: false }, (err, user, info) => {
       if (user) {
-
         res.header('token', user.token);
-        
         res.status(200).send(user);
       } else if (info && info.message) {
         res.status(401).send(info.message);
