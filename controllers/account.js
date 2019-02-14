@@ -29,7 +29,8 @@ const AccountController = {
   createDriver: async (req, res) => {
     let data = req.body;
     try {
-      let driver =  await Driver.createDriver(data);
+      let driver = await Driver.createDriver(data);
+      
       res.status(200).send(driver);
     } catch (error) {
       res.status(500).send('Unknown Server Error');
@@ -232,8 +233,10 @@ const AccountController = {
 
   getPrivateDriver: async (req, res) => {
     let did = req.user.email
+    console.log(did)
     try {
       let driver = await Driver.getDriverByEmail(did);
+      console.log(driver);
       res.status(200).send(driver);
     } catch(err) {
       res.status(500).send('Unknown Server Error');

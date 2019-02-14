@@ -8,6 +8,7 @@ const DriverSchema = Schema({
   driverId: {
     type: String,
     unique: true,
+    default: shortId.generate(),
     index: true
   },
   firstName: {
@@ -76,12 +77,10 @@ const DriverSchema = Schema({
   bestContact: {
     type: String,
     default: 'EMAIL',
-    required: true
   },
   pickupMethod: {
     type: String,
     default: 'PICK_UP',
-    required: true
   }
 },
 {
@@ -130,22 +129,24 @@ class Driver {
 
   static async getDriverByEmail(email) {
     try {
-      return await this.findOne({email: email})
-      .exec()
+      let me = await this.findOne({email: email}).exec()
+      return me;
     } catch (err) {
       throw err;
     }
   }
   static async createDriver(data) {
     try {
-      
+      let driver;
       let exists = await this.findOne({email: data.email}).exec();
       if(Boolean(exists)) {
-        return await this.updateDriver(exists._id, data);
+        driver =  await this.findOneAndUpdate(exists._id, data);
       } else {
-        return await this.create(data);
+        driver = await this.create(data);
       }
+      return driver;
     } catch (err) {
+      console.log(err);
       return false;
     }
   }
