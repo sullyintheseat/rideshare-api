@@ -2,7 +2,8 @@ const passport = require('passport');
 const ObjectId = require('mongodb').ObjectId;
 const verifyAuth = require('../passport/auth').verifyAuth(passport);
 const Message = require('../models/Message');
-const email 	= require('emailjs');
+const email	= require('emailjs');
+const User = require('../models/User');
 
 const NotificationController = {
   sendMessage: async (req, res) =>{
@@ -43,24 +44,29 @@ const NotificationController = {
     }
   },
 
-  sendEmail: async (req, res) => {
+  passForgot: async (req, res) => {
     try{
-      var server 	= email.server.connect({
-        user:	"msullivan@digitalseat.com", 
-        password:"Inter$can19!", 
+      let destination = req.body.email;
+
+      let newpassword = await User.passwordReset(destination);
+
+      let mystr = `Your new passowrd is ${newpassword} - it is recommended that you login and change your password.`;
+      let server 	= email.server.connect({
+        user:	"support@digitalseat.com", 
+        password:"Scansupport19!", 
         host:	"smtp.gmail.com", 
         tls: {ciphers: "SSLv3"}
       });
       
-      var message	= {
-        text:	"i hope this works", 
-        from:	"msullivan@digitalseat.com", 
-        to:		"msullivan1@austin.rr.com",
+      let message	= {
+        text:	mystr, 
+        from: "support@digitalseat.com", 
+        to:		destination,
         //cc:		"else <else@your-email.com>",
-        subject:	"testing emailjs",
+        subject:	"Forgot Password",
         attachment: 
         [
-          {data:"<html>i <i>hope</i> this works!</html>", alternative:true},
+          {data:`<html><p>${mystr}</p</html>`, alternative:true},
           //{path:"path/to/file.zip", type:"application/zip", name:"renamed.zip"}
         ]
       };
@@ -74,7 +80,7 @@ const NotificationController = {
 
 module.exports.Controller = NotificationController;
 module.exports.controller = (app) => {
-  app.get('/emailme', NotificationController.sendEmail);
+  app.post('/forgot', NotificationController.passForgot);
   app.post('/pubmsg/', NotificationController.sendPublicMessage);
   app.post('/msg/',verifyAuth, NotificationController.sendMessage);
   app.post('/msgack/',verifyAuth, NotificationController.acknowledged);

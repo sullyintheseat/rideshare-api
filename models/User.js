@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const CryptoJS = require('crypto-js');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
+const shortId = require('shortid');
 
 const UserSchema = Schema({
   email: {
@@ -128,6 +129,23 @@ class User {
         {new: true})
         .exec()
       return update;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async passwordReset(email) {
+    try {
+      let newWord = shortId.generate() + shortId.generate();
+      let encrypt = CryptoJS.AES.encrypt(newWord, 'FuCKM0nk3Y').toString();
+      await this.findOneAndUpdate(
+        {
+          email : email
+        },
+        {password: encrypt},
+        {new: true})
+        .exec()
+      return newWord;
     } catch (err) {
       return err;
     }

@@ -262,8 +262,6 @@ const AccountController = {
     }
   }
 
-
-
 } 
 
 module.exports.Controller = AccountController;
@@ -284,6 +282,7 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/reguser', verifyAuth, AccountController.getPrivateDriver);
   app.put('/accountSettings/reguser', verifyAuth, AccountController.updateDriverPrivate); 
   app.put('/accountSettings/pass', verifyAuth, AccountController.changeDriverPassword); 
+  
 
 
 
