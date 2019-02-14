@@ -117,6 +117,22 @@ class User {
     }
   }
 
+  static async updateUserPassword(id, data) {
+    try {
+      let encrypt = CryptoJS.AES.encrypt(data.password, 'FuCKM0nk3Y').toString();
+      let update = await this.findOneAndUpdate(
+        {
+          _id : id
+        },
+        {password: encrypt},
+        {new: true})
+        .exec()
+      return update;
+    } catch (err) {
+      return err;
+    }
+  }
+
   static async invalidateUser(email) {
     try{
 

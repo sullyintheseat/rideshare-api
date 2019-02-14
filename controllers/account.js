@@ -249,7 +249,12 @@ const AccountController = {
       let user = await User.verifyUser(req.user.email, req.body.oldPassword);
 
       if(Boolean(user)){
-        
+        let update = await User.updateUserPassword(req.user._id, {password: req.body.newPassword});
+        if(Boolean(update)){
+          res.status(200).send('Success');
+        } else {
+          res.status(401).send('Failure');
+        }
       }
 
     } catch(err) {
