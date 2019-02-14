@@ -10,16 +10,7 @@ const ScanSchema = Schema({
   vehicleId:  {
     type: String,
     default: null,
-    required: true
-  },
-  advertiserId:  {
-    type: String,
-    default: null,
-    required: true
-  },
-  revisit: {
-    type: Boolean,
-    defautl: false
+    required: false
   }
 },
 {
@@ -30,7 +21,11 @@ const ScanSchema = Schema({
   collection: 'scans' 
 });
 
-
+ScanSchema.virtual('driver', {
+  ref: 'Driver',
+  localField: 'driverId',
+  foreignField: 'driverId' 
+ });
  
 class Scan {
   

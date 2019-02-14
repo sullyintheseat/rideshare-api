@@ -118,6 +118,16 @@ class Driver {
     }
   }
 
+  static async getDriverByDriverId(driverId) {
+    try {
+      return await this.findOne({driverId:driverId})
+      .select('_id city')
+      .exec()
+    } catch (err) {
+      return err;
+    }
+  }
+
   static async getDriverByName(name) {
     try {
       return await this.findOne({username: name})

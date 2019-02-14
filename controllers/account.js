@@ -171,6 +171,7 @@ const AccountController = {
       } else if (info && info.message) {
         res.status(401).send(info.message);
       } else if (err) {
+        console.log(err);
         res.status(401).send(err);
       } else {
        res.status(500).send('Unknown server error');
