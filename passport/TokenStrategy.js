@@ -32,6 +32,7 @@ class TokenStrategy {
     }
     let user;
 
+    console.log(jwtPayload.sub);    
     
     try {
       
