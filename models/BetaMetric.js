@@ -7,8 +7,9 @@ const BetaMetricSchema = Schema({
     type: String,
     index: true
   },
-  ip: {
-    type: String
+  sender: {
+    type: String,
+    default: null
   }
 },
 {
