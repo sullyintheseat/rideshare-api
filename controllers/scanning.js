@@ -18,8 +18,8 @@ ScanningController = {
     let action = req.body;
     try {
       action.ip = req.ip;
-      await BetaMetric.create(action);
-      res.status(200).send('Ok');
+      let data = await BetaMetric.create(action);
+      res.status(200).send(data);
     } catch (err) {
       res.status(401).send('Not Ok');
     }
