@@ -1,0 +1,39 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const shortId = require('shortid');
+
+const BetaTagSchema = Schema({
+  uiEvent:{
+    type: String,
+    index: true
+  },
+  collected: {
+    type: Boolean,
+    default: false
+  }
+},
+{
+  timestamps: true,
+  id: false,
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true },
+  collection: 'betaMetrics'
+});
+
+
+ 
+class BetaMetric {
+  
+  static async createMetric (action) {
+    try { 
+      await this.create(action);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+}
+
+BetaMetricSchema.loadClass(BetaMetric);
+module.exports = mongoose.model('BetaMetric', BetaMetricSchema);

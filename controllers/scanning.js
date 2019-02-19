@@ -1,5 +1,7 @@
 const Scan = require('../models/Scans');
 const Driver = require('../models/Driver');
+const Device = require('../models/Device');
+const BetaMetric = require('../models/BetaMetric');
 
 ScanningController = {
 
@@ -12,9 +14,20 @@ ScanningController = {
       res.status(200).send('no id');
     }
   },
+
+  setBetaMetrics: async (req, res) => {
+    let action = req.body;
+    try {
+      await BetaMetric.create(action);
+      res.status(200).send('Ok');
+    } catch (err) {
+      res.status(401).send('Not Ok');
+    }
+  }
 }
 
 module.exports.Controller = ScanningController;
 module.exports.controller = (app) => {
   app.get('/scan/:driverId', ScanningController.test);
+  app.post('/beta/metrics', ScanningController.setBetaMetrics);
 }
