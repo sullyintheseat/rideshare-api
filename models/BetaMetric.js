@@ -6,6 +6,9 @@ const BetaMetricSchema = Schema({
   uiEvent:{
     type: String,
     index: true
+  },
+  ip: {
+    type: String
   }
 },
 {

@@ -17,6 +17,7 @@ ScanningController = {
   setBetaMetrics: async (req, res) => {
     let action = req.body;
     try {
+      action.ip = req.ip;
       await BetaMetric.create(action);
       res.status(200).send('Ok');
     } catch (err) {
