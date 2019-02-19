@@ -1,6 +1,5 @@
 const Scan = require('../models/Scans');
 const Driver = require('../models/Driver');
-const Device = require('../models/Device');
 const BetaMetric = require('../models/BetaMetric');
 
 ScanningController = {

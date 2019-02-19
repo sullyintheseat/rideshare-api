@@ -2,14 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const shortId = require('shortid');
 
-const BetaTagSchema = Schema({
+const BetaMetricSchema = Schema({
   uiEvent:{
     type: String,
     index: true
-  },
-  collected: {
-    type: Boolean,
-    default: false
   }
 },
 {
