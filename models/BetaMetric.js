@@ -33,6 +33,14 @@ class BetaMetric {
     }
   }
 
+  static async getAll () {
+    try { 
+      return await this.find().exec();
+    } catch (err) {
+      return false;
+    }
+  }
+
 }
 
 BetaMetricSchema.loadClass(BetaMetric);

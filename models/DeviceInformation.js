@@ -235,7 +235,7 @@ class DeviceInformation {
     }
   }
 
-  static async getAlDeviceData() {
+  static async getAllDeviceData() {
     try{
 
     } catch (err) {
