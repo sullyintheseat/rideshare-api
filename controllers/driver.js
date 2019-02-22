@@ -37,12 +37,8 @@ const DriverController = {
     let id = req.params.id;
     try{
       
-      let result;
-      if(Boolean(id)){
-        result = await Driver.getDriver({driverId: id})
-      } else {
-        result = await Driver.getDrivers();
-      }
+      let result = await Driver.driverByTag({driverId: id})
+     
       res.status(200).send(result);
     } catch (err) {
       console.log(err)

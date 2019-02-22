@@ -117,6 +117,15 @@ class Driver {
     }
   }
 
+  static async driverByTag(driverId) {
+    try {
+      return await this.findOne(driverId)
+      .exec()
+    } catch (err) {
+      return err;
+    }
+  }
+
   static async getDriverByDriverId(driverId) {
     try {
       return await this.findOne({driverId:driverId})
