@@ -33,6 +33,23 @@ const DriverController = {
     }
   },
 
+  driverByTag: async(req, res) => {
+    let id = req.params.id;
+    try{
+      
+      let result;
+      if(Boolean(id)){
+        result = await Driver.getDriver({driverId: id})
+      } else {
+        result = await Driver.getDrivers();
+      }
+      res.status(200).send(result);
+    } catch (err) {
+      console.log(err)
+      res.status(500).send('Unknown Server Response');
+    }
+  },
+
   getDriverFull: async(req, res) => {
     let driverId = req.params;
     let result;
@@ -63,6 +80,7 @@ module.exports.controller = (app) => {
   app.post('/driver', DriverController.createUser);
   app.get('/driver', DriverController.getDriver);
   app.get('/driver/:id', DriverController.getDriver);
+  app.get('/tag/:id', DriverController.driverByTag);
   
   //administration or driver personal call
   app.get('/driver/:driverId/full', DriverController.getDriverFull);
