@@ -120,6 +120,7 @@ class Driver {
   static async driverByTag(driverId) {
     try {
       return await this.findOne(driverId)
+      .select('firstName lastName city state')
       .exec()
     } catch (err) {
       return err;
