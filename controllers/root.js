@@ -3,13 +3,13 @@ const Driver = require('../models/Driver');
 const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
 const moment = require('moment');
-const BetaTags = require('../models/BetaTags')
+const Tags = require('../models/Tag')
 
 const RootController = {
 
   createBetaTags: async (req, res) => {
     try {
-      let result = await BetaTags.createBetaTags(req.body.prefix, req.body.count);
+      let result = await Tags.createBetaTags(req.body.prefix, req.body.programId, req.body.count);
       res.status(200).send(result);
     } catch (error){
       res.status(500).send('big error');

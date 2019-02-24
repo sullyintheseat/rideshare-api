@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const shortId = require('shortid');
 const Vehicle = require('./Vehicle');
+const Tag = require('./Tag');
 const ObjectId = mongoose.Types.ObjectId;
 
 const DriverSchema = Schema({
@@ -96,6 +97,11 @@ DriverSchema.virtual('vehicles', {
  foreignField: 'driverId' 
 });
 
+DriverSchema.virtual('tagprogram', {
+  ref: 'Tag',
+  localField:'driverId',
+  foreignField: 'tagId'
+});
 
 class Driver {
 
@@ -120,7 +126,8 @@ class Driver {
   static async driverByTag(driverId) {
     try {
       return await this.findOne(driverId)
-      .select('firstName lastName city state')
+      .select('firstName lastName city state driverId')
+      .populate('tagprogram')
       .exec()
     } catch (err) {
       return err;
