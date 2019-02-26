@@ -92,7 +92,7 @@ initPassport = () => {
 const PORT = process.env.PORT || aport;
 let server;
 startServer = () => {
-  server = app.listen(PORT);
+  server = app.listen(PORT, '0.0.0.0');
   server.on('listening', () => {
     console.log('Server running on port:', PORT);
     initPassport();
