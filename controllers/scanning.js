@@ -1,6 +1,7 @@
 const Scan = require('../models/Scans');
 const Driver = require('../models/Driver');
 const BetaMetric = require('../models/BetaMetric');
+const DeviceInformation = require('../models/DeviceInformation');
 
 ScanningController = {
 
@@ -48,14 +49,25 @@ ScanningController = {
   },
 
   scoringScan: async (req, res) => {
-    let ip = req.get('x-real-ip');
-    if(Boolean(ip)){
-
-    } else {
-      ip = "127.0.0.1"
-    }
     let isMobile = req.useragent.isMobile;
-    res.status(200).send({ip, isMobile});
+    let ip = req.get('x-real-ip');
+    if(!Boolean(ip)){ ip = "127.0.0.1" };
+
+    try {
+      let device = await DeviceInformation.createDevice(req.useragent);
+
+      
+      await Scan.createScan({driverId: req.body.snder, origin: ip, device: device.deviceId})
+      
+      res.status(200).send({ip, isMobile, did: device.deviceId});
+
+    } catch (err) {
+      res.status(401).send('Not Ok');
+    }
+  },
+  
+  getScans: async (req, res) => {
+
   }
 }
 
@@ -65,5 +77,6 @@ module.exports.controller = (app) => {
   app.get('/scan', ScanningController.test);
   app.post('/beta/metrics', ScanningController.setBetaMetrics);
   app.get('/beta/metrics', ScanningController.getBetaMetrics);
-  app.get('/data/', ScanningController.scoringScan);
+  app.get('/data/', ScanningController.getScans);
+  app.post('/data' , ScanningController.scoringScan);
 }

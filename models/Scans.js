@@ -12,6 +12,11 @@ const ScanSchema = Schema({
     default: null, 
     required: true,
     index: true
+  },
+  device: {
+    type: String,
+    default: null,
+    index: true
   }
 },
 {
