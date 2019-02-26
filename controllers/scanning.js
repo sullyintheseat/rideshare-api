@@ -54,7 +54,8 @@ ScanningController = {
     } else {
       ip = "127.0.0.1"
     }
-    res.status(200).send(ip);
+    let isMobile = req.useragent.isMobile;
+    res.status(200).send({ip, isMobile});
   }
 }
 
