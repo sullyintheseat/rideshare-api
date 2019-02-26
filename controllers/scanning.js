@@ -48,8 +48,8 @@ ScanningController = {
   },
 
   scoringScan: async (req, res) => {
-    console.log(req.ips);
-    res.status(200).send(req.connection.remoteAddress);
+    console.log(req.ip);
+    res.status(200).send(req.ip);
   }
 }
 
