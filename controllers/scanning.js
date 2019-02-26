@@ -48,8 +48,13 @@ ScanningController = {
   },
 
   scoringScan: async (req, res) => {
-    console.log(req.ip);
-    res.status(200).send(req.ip + ' ' + ' hit ' +  req.ips + ' ' + req.get('x-real-ip'));
+    let ip = req.get('x-real-ip');
+    if(Boolean(ip)){
+
+    } else {
+      ip = "127.0.0.1"
+    }
+    res.status(200).send(ip);
   }
 }
 
