@@ -7,10 +7,11 @@ const ScanSchema = Schema({
     default: null,
     required: true
   },
-  vehicleId:  {
+  origin: {
     type: String,
-    default: null,
-    required: false
+    default: null, 
+    required: true,
+    index: true
   }
 },
 {

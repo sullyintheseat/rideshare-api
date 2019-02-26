@@ -27,7 +27,7 @@ const RootController = {
 
   adConnect: async (req, res) => {
    
-    let driverId = req.params;
+    let {driverId} = req.params;
     
     if(driverId !== undefined) {
 

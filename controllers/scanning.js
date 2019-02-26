@@ -41,6 +41,15 @@ ScanningController = {
     } catch (err) {
       res.status(401).send('Not Ok');
     }
+  },
+
+  getTagTarget: async (req, res) => {
+
+  },
+
+  scoringScan: async (req, res) => {
+    console.log(req.ip);
+    res.status(200).send(req.userAgent);
   }
 }
 
@@ -50,4 +59,5 @@ module.exports.controller = (app) => {
   app.get('/scan', ScanningController.test);
   app.post('/beta/metrics', ScanningController.setBetaMetrics);
   app.get('/beta/metrics', ScanningController.getBetaMetrics);
+  app.get('/data/', ScanningController.scoringScan);
 }

@@ -2,10 +2,6 @@ const Driver = require('../models/Driver');
 
 const IndexController = {
 
-  test: async(req, res) => {
-    res.send('test');
-  },
-
   getallDrivers: async (req, res) => {
     try{ 
       let result = await Driver.getDrivers();
@@ -23,6 +19,5 @@ const IndexController = {
 
 module.exports.Controller = IndexController;
 module.exports.controller = (app) => {
-  app.get('/', IndexController.test);
   app.get('/alldrivers', IndexController.getallDrivers);
 }
