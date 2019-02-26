@@ -47,6 +47,8 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.text({ type: 'text/html' }))
 
+app.set('trust proxy',true); 
+
 app.use(cookieParser());
 
 app.all('*', function(req, res, next){ req.syspath = __dirname; next();});
