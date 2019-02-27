@@ -2,6 +2,8 @@ const Scan = require('../models/Scans');
 const Driver = require('../models/Driver');
 const BetaMetric = require('../models/BetaMetric');
 const DeviceInformation = require('../models/DeviceInformation');
+const passport = require('passport');
+const verifyAuth = require('../passport/auth').verifyAuth(passport);
 
 ScanningController = {
 
@@ -55,19 +57,26 @@ ScanningController = {
 
     try {
       let device = await DeviceInformation.createDevice(req.useragent);
-
-      
       await Scan.createScan({driverId: req.body.snder, origin: ip, device: device.deviceId})
-      
       res.status(200).send({ip, isMobile, did: device.deviceId});
-
     } catch (err) {
       res.status(401).send('Not Ok');
     }
   },
   
   getScans: async (req, res) => {
+    let myid;
+    let did = req.user && req.user.email;
+    try {
+      let myid = await Driver.getDriverByEmail(did);
+      
+      let result = await Scan.getScanCountForTag({driverId: myid.driverId});
 
+      res.status(200).send({count: result});
+
+    } catch (err) {
+      res.status(401).send('Not Ok');
+    }
   }
 }
 
@@ -77,6 +86,6 @@ module.exports.controller = (app) => {
   app.get('/scan', ScanningController.test);
   app.post('/beta/metrics', ScanningController.setBetaMetrics);
   app.get('/beta/metrics', ScanningController.getBetaMetrics);
-  app.get('/data/', ScanningController.getScans);
+  app.get('/data/', verifyAuth, ScanningController.getScans);
   app.post('/data' , ScanningController.scoringScan);
 }

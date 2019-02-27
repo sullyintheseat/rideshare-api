@@ -63,6 +63,17 @@ class Scan {
       return error;
     }
   }
+
+  static async getScanCountForTag(driverId) {
+    try {
+      let result = await this.find(driverId)
+      .countDocuments()
+      .exec()
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 ScanSchema.loadClass(Scan);
