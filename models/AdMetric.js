@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ScanSchema = Schema({
+const AdMetricSchema = Schema({
+  advertiser: {
+    type: String,
+    default: null,
+    required: true
+  },
   driverId: {
     type: String,
     default: null,
@@ -28,18 +33,12 @@ const ScanSchema = Schema({
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
   id: false,
-  collection: 'scans' 
+  collection: 'admetrics' 
 });
-
-ScanSchema.virtual('driver', {
-  ref: 'Driver',
-  localField: 'driverId',
-  foreignField: 'driverId' 
- });
  
-class Scan {
+class AdMetric {
   
-  static async createScan (data) {
+  static async createMetric (data) {
     try {
       let result = await this.create(data);
       return result;
@@ -48,7 +47,7 @@ class Scan {
     }
   }
 
-  static async getScans(query) {
+  static async getMetrics(query) {
     try {
       let result = await this.find(query)
       .exec()
@@ -58,7 +57,7 @@ class Scan {
     }
   }
 
-  static async getScanBy(query) {
+  static async getMetricBy(query) {
     try {
       let result = await this.find(query)
       .exec()
@@ -68,9 +67,9 @@ class Scan {
     }
   }
 
-  static async getScanCountForTag(driverId) {
+  static async getScanCountForAd(advertiser) {
     try {
-      let result = await this.find(driverId)
+      let result = await this.find(advertiser)
       .countDocuments()
       .exec()
       return result;
@@ -79,6 +78,5 @@ class Scan {
     }
   }
 }
-
-ScanSchema.loadClass(Scan);
-module.exports = mongoose.model('Scan', ScanSchema);
+AdMetricSchema.loadClass(AdMetric);
+module.exports = mongoose.model('AdMetric', AdMetricSchema);
