@@ -65,12 +65,11 @@ class ContestEntry {
     let entry = data;
     try {
       let exists = await this.find({mobile: entry.mobile, contest: entry.contest}).exec();
-      if(Boolean(exists)){
-        return true;
+      if(exists.length < 1){
+        return await this.create(entry);
       } else {
-        await this.create(entry);
-      }
-      return true;
+        return true;
+      };
     } catch(err) {
       return false;
     }

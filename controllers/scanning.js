@@ -3,7 +3,7 @@ const Driver = require('../models/Driver');
 const BetaMetric = require('../models/BetaMetric');
 const DeviceInformation = require('../models/DeviceInformation');
 const AdMetric = require('../models/AdMetric');
-const ContestEnry = require('../models/ContestEntry');
+const ContestEntry = require('../models/ContestEntry');
 
 const passport = require('passport');
 const verifyAuth = require('../passport/auth').verifyAuth(passport);
@@ -105,7 +105,26 @@ ScanningController = {
     entry.isMobile = isMobile;
 
     try {
-      return await ContestEnry.createEntry(entry);
+      let result = await ContestEntry.createEntry(entry);
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown server error');
+    }
+  },
+
+  addMetric: async (req, res) => {
+    
+    let entry = req.body;
+    let isMobile = req.useragent.isMobile;
+    let ip = req.get('x-real-ip');
+    if(!Boolean(ip)){ ip = "127.0.0.1" };
+
+    entry.origin = ip;
+    entry.isMobile = isMobile;
+
+    try {
+      let result = await AdMetric.createMetric(entry);
+      res.status(200).send(result);
     } catch (err) {
       res.status(500).send('Unknown server error');
     }
@@ -123,5 +142,6 @@ module.exports.controller = (app) => {
 
   app.post('/adm', ScanningController.setAdMetric);
 
-  app.post('/entry', ScanningController.enterContest)
+  app.post('/entry', ScanningController.enterContest);
+  app.post('/ads/mtr', ScanningController.addMetric);
 }

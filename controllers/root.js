@@ -57,7 +57,6 @@ const RootController = {
         
 
       } catch (err) {
-        console.log(err);
         res.status(500).send('big error');
       }
     } else {
@@ -76,7 +75,6 @@ const RootController = {
   },
 
   lookUp: async(req, res) => {
-    console.log('test');
     let id = req.params.id;
     try {
       let result =  await BetaSignUp.getBetaProfile(id);

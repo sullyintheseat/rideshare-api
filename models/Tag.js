@@ -45,14 +45,12 @@ class Tag {
             programId
           });
         }
-        console.log('nothing');
       } else {
         for(let j=0; j < all; j++)
         {
           let val = `${prefix}${j + Number(numb)}`;
           await this.create({betaTagId: val});
         }
-        console.log('something');
       }
       return 'done'
     } catch (err) {

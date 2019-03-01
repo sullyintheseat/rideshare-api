@@ -49,7 +49,7 @@ const AccountController = {
   getDriver: async (req, res) => {
     let driverId = req.params.id;
     let driver;
-    console.log(driverId);
+
     try {
       driver = await Driver.getDriverProfile(driverId);
       if(!Boolean(driver)){
@@ -171,7 +171,6 @@ const AccountController = {
       } else if (info && info.message) {
         res.status(401).send(info.message);
       } else if (err) {
-        console.log(err);
         res.status(401).send(err);
       } else {
        res.status(500).send('Unknown server error');
@@ -226,10 +225,8 @@ const AccountController = {
 
   getPrivateDriver: async (req, res) => {
     let did = req.user.email
-    console.log(did)
     try {
       let driver = await Driver.getDriverByEmail(did);
-      console.log(driver);
       res.status(200).send(driver);
     } catch(err) {
       res.status(500).send('Unknown Server Error');
@@ -256,7 +253,6 @@ const AccountController = {
 
   validornot: async (req, res) => {
     try{
-      console.log('failed');
       res.status(200).send({value:'ok'})
     } catch (err) {
       res.status(401).send({value:'failed'})

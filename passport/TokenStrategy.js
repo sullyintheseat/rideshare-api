@@ -31,8 +31,6 @@ class TokenStrategy {
       return done(null, false, { message: 'EXPIRED TOKEN' });
     }
     let user;
-
-    console.log(jwtPayload.sub);    
     
     try {
       

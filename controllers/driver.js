@@ -28,7 +28,6 @@ const DriverController = {
       }
       res.status(200).send(result);
     } catch (err) {
-      console.log(err)
       res.status(500).send('Unknown Server Response');
     }
   },
@@ -41,7 +40,6 @@ const DriverController = {
      
       res.status(200).send(result);
     } catch (err) {
-      console.log(err)
       res.status(500).send('Unknown Server Response');
     }
   },
