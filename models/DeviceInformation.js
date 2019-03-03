@@ -231,15 +231,16 @@ class DeviceInformation {
     try{
       return await this.find({deviceId: deviceId})
     } catch (err) {
-      
+      return err;
     }
   }
 
-  static async getAllDeviceData() {
+  static async getAllDeviceData(query) {
     try{
-
+      return await this.find(query)
+      .exec()
     } catch (err) {
-      
+      return err;
     }
   }
 

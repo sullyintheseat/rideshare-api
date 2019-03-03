@@ -47,10 +47,9 @@ class AdMetric {
     }
   }
 
-  static async getMetrics(query) {
+  static async getMetrics() {
     try {
-      let result = await this.find(query)
-      .exec()
+      let result = await this.find().exec();
       return result;
     } catch (error) {
       return error;
