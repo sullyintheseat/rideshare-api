@@ -138,13 +138,12 @@ class User {
     try {
       let newWord = shortId.generate() + shortId.generate();
       let encrypt = CryptoJS.AES.encrypt(newWord, 'FuCKM0nk3Y').toString();
-      await this.findOneAndUpdate(
+      let result = await this.findOneAndUpdate(
         {
           email : email
         },
         {password: encrypt},
-        {new: true})
-        .exec()
+        {new: true});
       return newWord;
     } catch (err) {
       return err;
