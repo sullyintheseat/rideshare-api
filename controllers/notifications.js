@@ -50,7 +50,9 @@ const NotificationController = {
 
       let newpassword = await User.passwordReset(destination);
 
-      let mystr = `Your new passowrd is ${newpassword}  it is recommended that you login and change your password.`;
+      let mystr = `Your new passowrd is`
+      mystr += `${newpassword}`
+      mystr +=  `it is recommended that you login and change your password.`;
       let server 	= email.server.connect({
         user:	"support@digitalseat.com", 
         password:"Scansupport19!", 
