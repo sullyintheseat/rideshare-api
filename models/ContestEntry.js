@@ -85,6 +85,17 @@ class ContestEntry {
     }
   }
 
+  static async getAllEntries() {
+    try {
+      let entries = await this.find()
+        .sort({contest: 1})
+        .exec();
+      return entries;
+    } catch (err) {
+      return false;
+    }
+  }
+
 }
 
 ContestEntrySchema.loadClass(ContestEntry);

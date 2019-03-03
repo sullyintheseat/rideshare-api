@@ -2,6 +2,7 @@ const Program = require('../models/Program');
 const DeviceInformation = require('../models/DeviceInformation');
 const AdMetric = require('../models/AdMetric');
 const Scans = require('../models/Scans');
+const ContestEntry = require('../models/ContestEntry');
 
 const AdminController = {
 
@@ -44,8 +45,16 @@ const AdminController = {
     } catch (err) {
       res.status(500).send('Unknown Server Error');
     }
-  }
+  },
 
+  getContestEntries: async (req, res) => {
+    try {
+      let result = await ContestEntry.getAllEntries();
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown Server Error');
+    }
+  }
 }
 
 module.exports.Controller = AdminController;
@@ -54,4 +63,5 @@ module.exports.controller = (app) => {
   app.get('/v1/admin/scans', AdminController.getScanData);
   app.get('/v1/admin/metrics', AdminController.getAdClickedData);
   app.get('/v1/admin/devices', AdminController.getDeviceData);
+  app.get('/v1/admin/contests', AdminController.getContestEntries);
 }
