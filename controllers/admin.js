@@ -3,6 +3,7 @@ const DeviceInformation = require('../models/DeviceInformation');
 const AdMetric = require('../models/AdMetric');
 const Scans = require('../models/Scans');
 const ContestEntry = require('../models/ContestEntry');
+const Driver = require('../models/Driver');
 
 const AdminController = {
 
@@ -54,6 +55,24 @@ const AdminController = {
     } catch (err) {
       res.status(500).send('Unknown Server Error');
     }
+  },
+
+  getRegistered: async (req, res) => {
+    try {
+      let result = await Driver.getRegisteredDrivers();
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown Server Error');
+    }
+  },
+
+  getUnregistered: async (req, res) => {
+    try {
+      let result = await Driver.getUnregisteredDrivers();
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown Server Error');
+    }
   }
 }
 
@@ -64,4 +83,6 @@ module.exports.controller = (app) => {
   app.get('/v1/admin/metrics', AdminController.getAdClickedData);
   app.get('/v1/admin/devices', AdminController.getDeviceData);
   app.get('/v1/admin/contests', AdminController.getContestEntries);
+  app.get('/v1/admin/registered', AdminController.getRegistered);
+  app.get('/v1/admin/unregistered', AdminController.getUnregistered);
 }

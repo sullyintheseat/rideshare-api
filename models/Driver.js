@@ -273,6 +273,26 @@ class Driver {
       return err;
     }
   }
+
+  static async getUnregisteredDrivers() {
+    try {
+      let result = await this.find({driverId :null})
+      .exec();
+      return result
+    } catch (err) {
+      return err;
+    }
+  }
+
+  static async getRegisteredDrivers() {
+    try {
+      let result = await this.find({driverId :{$ne: null}})
+      .exec();
+      return result
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 DriverSchema.loadClass(Driver);
