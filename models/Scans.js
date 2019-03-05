@@ -51,6 +51,7 @@ class Scan {
   static async getScans(query) {
     try {
       let result = await this.find(query)
+      .sort({driverId: 1})
       .exec()
       return result;
     } catch (error) {
