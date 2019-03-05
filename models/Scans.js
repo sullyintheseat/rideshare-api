@@ -79,6 +79,42 @@ class Scan {
       return error;
     }
   }
+
+  static async getLeaderBoard() {
+    try {
+      return await this.aggregate([
+        {
+            "$group" : {
+                _id:"$driverId", 
+                count:{$sum:1}
+            },
+        },
+        {
+            "$lookup" : {
+                 from: 'drivers',
+                 localField: '_id',
+                 foreignField: 'driverId',
+                 as: 'driver'
+             }
+        },
+        {$unwind : '$driver' },
+        {$sort : {count: -1}},
+        {
+           $project: {
+               _id: 1,
+               count: 1,
+               origin: 1,
+               deviceId: 1,
+               'driver._id': 1,
+               'driver.firstName': 1,
+               'driver.lastName': 1,
+           }
+         }
+     ])
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 ScanSchema.loadClass(Scan);

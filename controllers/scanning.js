@@ -71,7 +71,7 @@ ScanningController = {
     let myid;
     let did = req.user && req.user.email;
     try {
-      let myid = await Driver.getDriverByEmail(did);
+      myid = await Driver.getDriverByEmail(did);
       let result = await Scan.getScanCountForTag({driverId: myid.driverId});
       res.status(200).send({count: result});
     } catch (err) {
@@ -128,6 +128,15 @@ ScanningController = {
     } catch (err) {
       res.status(500).send('Unknown server error');
     }
+  },
+
+  getLeaderBoard: async (req, res) => {
+    try {
+      let result = await Scan.getLeaderBoard();
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown server error');
+    }
   }
 }
 
@@ -140,6 +149,7 @@ module.exports.controller = (app) => {
   app.get('/data', verifyAuth, ScanningController.getScans);
   app.post('/data' , ScanningController.scoringScan);
 
+  app.get('/v1/leaderboard', ScanningController.getLeaderBoard);
   app.post('/adm', ScanningController.setAdMetric);
 
   app.post('/entry', ScanningController.enterContest);
