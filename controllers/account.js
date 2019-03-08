@@ -88,7 +88,11 @@ const AccountController = {
     let id = req.params.id;
     try {
       let updatedDriver = await Driver.updateDriver(id, driver)
-      res.status(200).send(updatedDriver);
+      if(!updatedDriver){
+        res.status(401).send('Username taken');
+      } else {
+        res.status(200).send(updatedDriver);
+      }
     } catch (error) {
       res.status(500).send('Unknown Server Error');
     }

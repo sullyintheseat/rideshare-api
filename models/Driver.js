@@ -34,7 +34,12 @@ const DriverSchema = Schema({
   },
   username: {
     type: String,
+    unique: true,
     default: null
+  },
+  usernameLowered: {
+    type: String,
+    unique: true
   },
   address : {
     type: String,
@@ -238,14 +243,45 @@ class Driver {
 
   static async updateDriver(id, data) {
     try {
-      let update = await this.findOneAndUpdate(
+      let me = await this.findOne({_id:id});
+
+      if (me.usernameLowered === data.usernameLowered){
+        let update = await this.findOneAndUpdate(
+          {
+            _id : id
+          },
+          data,
+          {new: true})
+          .exec()
+        return update;
+      } else {
+      
+        if(!this.userNameExists(data.usernameLowered))
         {
-          _id : id
-        },
-        data,
-        {new: true})
-        .exec()
-      return update;
+          let update = await this.findOneAndUpdate(
+            {
+              _id : id
+            },
+            data,
+            {new: true})
+            .exec()
+          return update; 
+        } else {
+          return false;
+        }
+      }
+    } catch (err) {
+      console.log(err)
+      return err;
+    }
+  }
+
+  static async userNameExists(name) {
+    try {
+      let user = await this.findOne({usernameLowered: name}).exec();
+
+      return (Boolean(user));
+
     } catch (err) {
       return err;
     }

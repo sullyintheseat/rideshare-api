@@ -19,7 +19,7 @@ module.exports = {
 
   generateTokenAdmin: user => {
     const expires = moment()
-      .add(1, "days")
+      .add(1, "hours")
       .valueOf();
     let params = {
       sub: user._id,

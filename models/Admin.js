@@ -36,12 +36,7 @@ class Admin {
     email = email.toLowerCase();
 
     try{
-
       let encrypt = CryptoJS.AES.encrypt(password, process.env.ADMIN_HASH).toString();
-
-      //let bytes  = CryptoJS.AES.decrypt(encrypt, 'FuCKM0nk3Y');
-      //let plaintext = bytes.toString(CryptoJS.enc.Utf8);
-
       let user = await this.findOne({email: email})
       .exec();
       if (!Boolean(user)){
@@ -60,13 +55,8 @@ class Admin {
     try {
       let user = await this.findOne({email: email})
       .exec();
-
-      console.log(user)
-
       let bytes  = CryptoJS.AES.decrypt(user.password, process.env.ADMIN_HASH);
       let decrypt = bytes.toString(CryptoJS.enc.Utf8);
-      
-      console.log(decrypt)
       let valid = (password === decrypt);
       
       if(valid){
@@ -81,7 +71,6 @@ class Admin {
 
   static async getById(id) {
     try{
-      console.log(id)
       return await this.findOne({_id: id})
     } catch (err){
       return err; 
