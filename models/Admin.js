@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
 const shortId = require('shortid');
 
-const UserSchema = Schema({
+const AdminSchema = Schema({
   email: {
     type: String,
     required: true,
@@ -24,20 +24,20 @@ const UserSchema = Schema({
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
   id: false,
-  collection: 'users' 
+  collection: 'admins' 
 });
 
 
-class User {
+class Admin {
   
-  static async createUser(user) {
+  static async createAdmin(user) {
     let {email, password} = user;
     
     email = email.toLowerCase();
 
     try{
 
-      let encrypt = CryptoJS.AES.encrypt(password, process.env.USER_HASH).toString();
+      let encrypt = CryptoJS.AES.encrypt(password, process.env.ADMIN_HASH).toString();
 
       //let bytes  = CryptoJS.AES.decrypt(encrypt, 'FuCKM0nk3Y');
       //let plaintext = bytes.toString(CryptoJS.enc.Utf8);
@@ -55,15 +55,18 @@ class User {
     }
   }
 
-  static async verifyUser(email, password) {
+  static async verifyAdmin(email, password) {
   
     try {
       let user = await this.findOne({email: email})
       .exec();
 
-      let bytes  = CryptoJS.AES.decrypt(user.password, process.env.USER_HASH);
-      let decrypt = bytes.toString(CryptoJS.enc.Utf8);
+      console.log(user)
 
+      let bytes  = CryptoJS.AES.decrypt(user.password, process.env.ADMIN_HASH);
+      let decrypt = bytes.toString(CryptoJS.enc.Utf8);
+      
+      console.log(decrypt)
       let valid = (password === decrypt);
       
       if(valid){
@@ -78,13 +81,14 @@ class User {
 
   static async getById(id) {
     try{
+      console.log(id)
       return await this.findOne({_id: id})
     } catch (err){
       return err; 
     }
   }
 
-  static async getUser(email) {
+  static async getAdmin(email) {
     try{
       return await this.findOne({email: email})
     } catch (err){
@@ -92,18 +96,7 @@ class User {
     }
   }
 
-  static async userExists(email) {
-    try{
-      let user = await this.findOne({email: email})
-      .exec();
-      return (Boolean(user));
-
-    } catch (err){
-     return err; 
-    }
-  }
-
-  static async updateUser(id, data) {
+  static async updateAdmin(id, data) {
     try {
       let update = await this.findOneAndUpdate(
         {
@@ -117,48 +110,8 @@ class User {
       return err;
     }
   }
-
-  static async updateUserPassword(id, data) {
-    try {
-      let encrypt = CryptoJS.AES.encrypt(data.password, process.env.USER_HASH).toString();
-      let update = await this.findOneAndUpdate(
-        {
-          _id : id
-        },
-        {password: encrypt},
-        {new: true})
-        .exec()
-      return update;
-    } catch (err) {
-      return err;
-    }
-  }
-
-  static async passwordReset(email) {
-    try {
-      let newWord = shortId.generate() + shortId.generate();
-      let encrypt = CryptoJS.AES.encrypt(newWord, process.env.USER_HASH).toString();
-      let result = await this.findOneAndUpdate(
-        {
-          email : email
-        },
-        {password: encrypt},
-        {new: true});
-      return newWord;
-    } catch (err) {
-      return err;
-    }
-  }
-
-  static async invalidateUser(email) {
-    try{
-
-    } catch (err){
-     return err; 
-    }
-  }
 }
 
-UserSchema.loadClass(User);
+AdminSchema.loadClass(Admin);
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Admin', AdminSchema);

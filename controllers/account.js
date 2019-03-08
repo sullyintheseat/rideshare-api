@@ -5,7 +5,6 @@ const Vehicle = require('../models/Vehicle');
 const User = require('../models/User');
 
 const passport = require('passport');
-const ObjectId = require('mongodb').ObjectId;
 const verifyAuth = require('../passport/auth').verifyAuth(passport);
 
 const AccountController = {

@@ -1,20 +1,18 @@
-const User = require('../models/User')
+const User = require('../models/User');
+const Admin = require('../models/Admin');
 
 class TokenStrategy {
   constructor() {
-    this.verifyBasic= this.verifyBasic.bind(this);
     this.verifyAuth = this.verifyAuth.bind(this);
+    this.verifyAdmin = this.verifyAdmin.bind(this);
   }
 
-  async verifyBasic(jwtPayload, done) {
+  async verifyAuth(jwtPayload, done) {
     if (jwtPayload.exp < Date.now()) {
-      return done(null, false, { message: 'EXPIRED TOKEN'});
+      return done(null, false, { message: 'EXPIRED TOKEN' });
     }
     let user;
-
-    
     try {
-      
       user = await User.getById(jwtPayload.sub);
       if (Boolean(user)) {
         return done(null, user);
@@ -26,19 +24,16 @@ class TokenStrategy {
     }
   }
 
-  async verifyAuth(jwtPayload, done) {
+  async verifyAdmin(jwtPayload, done) {
     if (jwtPayload.exp < Date.now()) {
-      return done(null, false, { message: 'EXPIRED TOKEN' });
+      return done(null, false, { message: 'LOGIN_ERRORS.TOKEN_EXPIRED' });
     }
-    let user;
-    
+    const admin = await Admin.getById(jwtPayload.sub);
     try {
-      
-      user = await User.getById(jwtPayload.sub);
-      if (Boolean(user)) {
-        return done(null, user);
+      if (admin) {
+        return done(null, admin);
       } else {
-        return done(null, false, { message: 'NOT FOUND' });
+        return done(null, false, { message:' LOGIN_ERRORS.NOT_ADMIN' });
       }
     } catch (err) {
       return done(err, false);

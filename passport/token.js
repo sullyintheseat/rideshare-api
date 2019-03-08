@@ -11,9 +11,23 @@ module.exports = {
       exp: expires
     };
     try {
-      return jwt.sign(params,'FuCKM0nk3Y');
+      return jwt.sign(params,process.env.USER_HASH);
     } catch (err) {
-      logger.error(err);
+      throw err;
+    }
+  },
+
+  generateTokenAdmin: user => {
+    const expires = moment()
+      .add(1, "days")
+      .valueOf();
+    let params = {
+      sub: user._id,
+      exp: expires
+    };
+    try {
+      return jwt.sign(params,process.env.ADMIN_HASH);
+    } catch (err) {
       throw err;
     }
   },
