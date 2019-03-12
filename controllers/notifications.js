@@ -77,6 +77,16 @@ const NotificationController = {
     }catch(err){
       res.send(err);
     }
+  },
+
+  getAll: async (req, res)=> { 
+    console.log('here')
+    try {
+      let result = await Message.getMessages();
+      res.status(200).send(result)
+    }catch(err){
+      res.send(err);
+    }
   }
 }
 
@@ -86,4 +96,6 @@ module.exports.controller = (app) => {
   app.post('/pubmsg/', NotificationController.sendPublicMessage);
   app.post('/msg/',verifyAuth, NotificationController.sendMessage);
   app.post('/msgack/',verifyAuth, NotificationController.acknowledged);
+
+  app.get('/v1/msg', NotificationController.getAll);
 }

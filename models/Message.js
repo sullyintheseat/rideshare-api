@@ -57,6 +57,9 @@ class Message {
 
   static async getMessages() { 
     try{
+      let result = await this.find()
+      .exec()
+      return result;
 
     } catch(err) {
       return err;
