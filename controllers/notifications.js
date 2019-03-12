@@ -78,6 +78,36 @@ const NotificationController = {
       res.send(err);
     }
   },
+  
+  sendThanks: async (req, res) => {
+    try{
+      let destination = req.body.email;
+      
+      let server 	= email.server.connect({
+        user:	"support@digitalseat.com", 
+        password:"Scansupport19!", 
+        host:	"smtp.gmail.com", 
+        tls: {ciphers: "SSLv3"}
+      });
+      
+      let message	= {
+        text:	mystr, 
+        from: "support@digitalseat.com", 
+        to:		destination,
+        //cc:		"else <else@your-email.com>",
+        subject:	"Application Received - Thank You!",
+        attachment: 
+        [
+          {data:`<html><p>Hi Digital Seat Driver!</p><p>Thank you for signing up to join our DFW driver network - We have received your application and will contact you within 48 hours. In the meantime, please add Driver@digitalseat.com to your contacts!</p><p>We look forward to working with you!</p><p>Best,<br/><br/>Driver Support Team<br/><a href="https://www.digitalseat.com" target="_blank">www.digitalseat.com</a></p</html>`, alternative:true},
+          //{path:"path/to/file.zip", type:"application/zip", name:"renamed.zip"}
+        ]
+      };
+      server.send(message, function(err, message) { console.log(err || message); });
+      res.status(200).send('Success');
+    }catch(err){
+      res.send(err);
+    }
+  },
 
   getAll: async (req, res)=> { 
     console.log('here')
@@ -98,4 +128,5 @@ module.exports.controller = (app) => {
   app.post('/msgack/',verifyAuth, NotificationController.acknowledged);
 
   app.get('/v1/msg', NotificationController.getAll);
+  app.post('/v1/msg/thanks', NotificationController.sendThanks);
 }
