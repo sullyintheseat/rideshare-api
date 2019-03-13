@@ -98,9 +98,14 @@ const AccountController = {
   },
 
   deleteDriver: async (req, res) => {
+    let user = req.user;
+    console.log(user);
     try {
-      let result = await Driver.deleteDriver(req.params.id);
-      res.status(200).send(result);
+      //let result = await Driver.deleteDriver(req.params.id);
+      await Driver.deleteDriver(user.email);
+      await User.deleteUser(user.email);
+      
+      res.status(200).send('success');
 
     } catch (error) {
       res.status(500).send('Unknown Server Error');
@@ -275,7 +280,7 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/user/:id/email', AccountController.getDriverByEmail);
   app.get('/accountSettings/users', AccountController.getDrivers);
   app.put('/accountSettings/user/:id', AccountController.updateDriver);
-  app.delete('/accountSettings/user/:id', AccountController.deleteDriver);
+  app.delete('/accountSettings/user', verifyAuth, AccountController.deleteDriver);
   app.get('/accountSettings/user/:username', AccountController.getDriver);
   // Private calls
   app.get('/accountSettings/reguser', verifyAuth, AccountController.getPrivateDriver);

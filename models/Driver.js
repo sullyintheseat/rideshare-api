@@ -270,21 +270,11 @@ class Driver {
     }
   }
 
-  static async deleteDriver(id) {
+  static async deleteDriver(email) {
     try {
-      let me = await this.findOne({_id:  ObjectId(id)});
-
-      if(!Boolean(me)) {
-        return 'User not found';
-      }
-      let short = me.driverId;
-      try {
-        await Vehicle.deleteVehicles(short);
-      } catch (err) {
-        return err;
-      };
-
-      await this.findByIdAndRemove({_id: id});
+      await this.findOneAndDelete({
+        email: email
+      }).exec();
 
       return 'User deleted';
 

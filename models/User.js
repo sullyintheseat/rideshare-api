@@ -157,6 +157,17 @@ class User {
      return err; 
     }
   }
+
+  static async deleteUser(email) {
+    try{
+      await this.findOneAndDelete({
+        email: email
+      }).exec();
+      return true;
+    } catch (err){
+     return err; 
+    }
+  }
 }
 
 UserSchema.loadClass(User);

@@ -72,7 +72,7 @@ const NotificationController = {
           //{path:"path/to/file.zip", type:"application/zip", name:"renamed.zip"}
         ]
       };
-      server.send(message, function(err, message) { console.log(err || message); });
+      server.send(message, function(err, message) { console.log(err || 'message'); });
       res.status(200).send('Success');
     }catch(err){
       res.send(err);
@@ -101,7 +101,7 @@ const NotificationController = {
           //{path:"path/to/file.zip", type:"application/zip", name:"renamed.zip"}
         ]
       };
-      server.send(message, function(err, message) { console.log(err || message); });
+      server.send(message, function(err, message) { console.log(err || 'message'); });
       res.status(200).send('Success');
     }catch(err){
       res.send(err);
@@ -109,7 +109,6 @@ const NotificationController = {
   },
 
   getAll: async (req, res)=> { 
-    console.log('here')
     try {
       let result = await Message.getMessages();
       res.status(200).send(result)
