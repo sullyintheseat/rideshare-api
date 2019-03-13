@@ -177,6 +177,7 @@ class Driver {
       }
       return driver;
     } catch (err) {
+      console.log(err)
       return false;
     }
   }

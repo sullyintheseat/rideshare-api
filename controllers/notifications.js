@@ -91,7 +91,6 @@ const NotificationController = {
       });
       
       let message	= {
-        text:	mystr, 
         from: "support@digitalseat.com", 
         to:		destination,
         //cc:		"else <else@your-email.com>",

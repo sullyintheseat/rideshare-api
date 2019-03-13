@@ -29,8 +29,11 @@ const AccountController = {
     let data = req.body;
     try {
       let driver = await Driver.createDriver(data);
-      
-      res.status(200).send(driver);
+      if(!driver) {
+        res.status(401).send('Duplicate Data');
+      } else {
+        res.status(200).send(driver);
+      }
     } catch (error) {
       res.status(500).send('Unknown Server Error');
     }
