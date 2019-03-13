@@ -244,33 +244,15 @@ class Driver {
 
   static async updateDriver(id, data) {
     try {
-      let me = await this.findOne({_id:id});
-
-      if (me.usernameLowered === data.usernameLowered){
-        let update = await this.findOneAndUpdate(
-          {
-            _id : id
-          },
-          data,
-          {new: true})
-          .exec()
-        return update;
-      } else {
-      
-        if(!this.userNameExists(data.usernameLowered))
+      let update = await this.findOneAndUpdate(
         {
-          let update = await this.findOneAndUpdate(
-            {
-              _id : id
-            },
-            data,
-            {new: true})
-            .exec()
-          return update; 
-        } else {
-          return false;
-        }
-      }
+          _id : id
+        },
+        data,
+        {new: true})
+        .exec()
+      return update;
+      
     } catch (err) {
       console.log(err)
       return err;
