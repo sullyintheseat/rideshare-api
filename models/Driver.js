@@ -170,11 +170,9 @@ class Driver {
     try {
       let driver;
       let exists = await this.findOne({email: data.email}).exec();
-      if(Boolean(exists)) {
-        driver =  await this.findOneAndUpdate(exists._id, data);
-      } else {
+     
         driver = await this.create(data);
-      }
+      
       return driver;
     } catch (err) {
       console.log(err)

@@ -104,7 +104,6 @@ const AccountController = {
       //let result = await Driver.deleteDriver(req.params.id);
       await Driver.deleteDriver(user.email);
       await User.deleteUser(user.email);
-      
       res.status(200).send('success');
 
     } catch (error) {
