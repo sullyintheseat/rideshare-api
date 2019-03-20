@@ -57,6 +57,7 @@ class AdMetric {
   }
 
   static async getMetricBy(query) {
+    console.log(query)
     try {
       let result = await this.find(query)
       .exec()

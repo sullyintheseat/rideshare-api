@@ -1,5 +1,8 @@
 const Driver = require('../models/Driver');
 
+const passport = require('passport');
+const verifyAuth = require('../passport/auth').verifyAuth(passport);
+
 const DriverController = {
 
   createUser: async(req, res) => {
@@ -65,8 +68,18 @@ const DriverController = {
     } catch (err) {
       res.status(500).send('Unknown Server Response');
     }
+  },
+
+  updateAgreement: async (req, res) => {
+    let did = req.user.email;
+    try {      
+      let driver = await Driver.getDriverByEmail(did);
+      let updatedDriver = await Driver.updateDriver(driver._id, {agreement: true})
+      res.status(200).send(updatedDriver);
+    } catch (error) {
+      res.status(500).send('Unknown Server Error');
+    }
   }
- 
 }
 
 module.exports.Controller = DriverController;
@@ -79,4 +92,5 @@ module.exports.controller = (app) => {
   //administration or driver personal call
   app.get('/driver/:driverId/full', DriverController.getDriverFull);
   app.delete('/driver/:id', DriverController.deleteDriver);
+  app.get('/v1/driver/agreement', verifyAuth, DriverController.updateAgreement )
 }
