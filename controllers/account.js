@@ -3,7 +3,7 @@ const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
 const Vehicle = require('../models/Vehicle');
 const User = require('../models/User');
-
+const Client = require('../models/Client');
 const passport = require('passport');
 const verifyAuth = require('../passport/auth').verifyAuth(passport);
 
@@ -263,8 +263,34 @@ const AccountController = {
     } catch (err) {
       res.status(401).send({value:'failed'})
     }
-  }
+  },
 
+  signupClient: async (req, res, next) => {
+    passport.authenticate('local-client-signup', { session: false }, async (err, user, info) => {
+      if (user) {
+        res.status(200).send(user);
+      } else if (info && info.message) {
+        res.status(401).send(info.message);
+      } else if (err) {
+        res.status(401).send(err);
+      } else {
+       res.status(500).send('Unknown server error');
+      }
+    })(req, res, next);
+  },
+
+  loginClient: async (req, res, next) => {
+    passport.authenticate('local-client-login', { session: false }, (err, user, info) => {
+      if (user) {
+        res.header('token', user.token);
+        res.status(200).send(user);
+      } else if (info && info.message) {
+        res.status(401).send(info.message);
+      } else {
+        res.status(500).send('Unknown server error');
+      }
+    })(req, res, next);
+  },
 } 
 
 module.exports.Controller = AccountController;
@@ -293,6 +319,9 @@ module.exports.controller = (app) => {
   app.get('/accountSettings/user/:id/vehicles', AccountController.getDriversVehicles);
   app.post('/accountSettings/signup', AccountController.signup);
   app.post('/accountSettings/login', AccountController.login);
+
+  app.post('/accountSettings/client/signup', AccountController.signupClient);
+  app.post('/accountSettings/client/login', AccountController.loginClient);
 
   // calls for vehicle management
   app.post('/accountSettings/vehicle', AccountController.createVehicle);

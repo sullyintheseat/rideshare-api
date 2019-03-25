@@ -34,6 +34,18 @@ module.exports = passport => {
     )
   );
 
+  passport.use(
+    "local-client-login",
+    new LocalStrategy(
+      {
+        usernameField: "username",
+        passwordField: "password",
+        passReqToCallback: true
+      },
+      EmailStrategy.clientLogin
+    )
+  );
+
 
   passport.use(
     "local-signup",
@@ -44,6 +56,18 @@ module.exports = passport => {
         passReqToCallback: false
       },
       EmailStrategy.signup
+    )
+  );
+
+  passport.use(
+    "local-client-signup",
+    new LocalStrategy(
+      {
+        usernameField: "username",
+        passwordField: "password",
+        passReqToCallback: false
+      },
+      EmailStrategy.clientsignup
     )
   );
 
@@ -97,3 +121,4 @@ module.exports = passport => {
 
 module.exports.verifyAuth = passport => passport.authenticate("jwt", { session: false });
 module.exports.verifyAdmin = passport => passport.authenticate("jwt-admin", { session: false });
+module.exports.verifyClient = passport => passport.authenticate("jwt-admin", { session: false });
