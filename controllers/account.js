@@ -6,6 +6,7 @@ const User = require('../models/User');
 const Client = require('../models/Client');
 const passport = require('passport');
 const verifyAuth = require('../passport/auth').verifyAuth(passport);
+const verifyClient = require('../passport/auth').verifyClient(passport);
 
 const AccountController = {
   
@@ -328,6 +329,6 @@ module.exports.controller = (app) => {
   app.put('/accountSettings/vehicle/:id', AccountController.updateVehicle);
   app.get('/accountSettings/vehicle', AccountController.getVehicle);
   app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);
-  app.get('/accountSettings/vehicle/:vehicleId', AccountController.getVehicle);
+  
 
 }

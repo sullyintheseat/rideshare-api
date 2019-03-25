@@ -8,6 +8,8 @@ const Admin = require('../models/Admin');
 const passport = require('passport');
 const verifyAdmin = require('../passport/auth').verifyAdmin(passport);
 
+const verifyClient = require('../passport/auth').verifyClient(passport);
+
 const MetricsController = {
   
   test: async (req, res) => {
@@ -30,6 +32,16 @@ const MetricsController = {
     } catch (err) {
       res.status(500).send('Unknown Server Error');
     }
+  },
+
+  dataForClient: async (req, res) => {
+    try {
+      let result = await AdMetric.getMetricBy(req.body);
+      
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown Server Error');
+    }
   }
 
 }
@@ -38,4 +50,5 @@ module.exports.Controller = MetricsController;
 module.exports.controller = (app) => {
   app.get('/v1/metrics/test', verifyAdmin, MetricsController.test);
   app.post('/v1/metrics/dataFor', MetricsController.dataFor);
+  app.post('/v1/metrics/forclient', MetricsController.dataForClient);
 }
