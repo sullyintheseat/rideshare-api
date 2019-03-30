@@ -1,4 +1,7 @@
 require('dotenv').config();
+require("dotenv-safe").config({
+  allowEmptyValues: true
+});
 const cfg = require('config');
 
 const express = require('express');

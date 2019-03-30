@@ -6,8 +6,7 @@ const ContestEntry = require('../models/ContestEntry');
 const Driver = require('../models/Driver');
 const Admin = require('../models/Admin');
 const passport = require('passport');
-const verifyAdmin = require('../passport/auth').verifyAdmin(passport);
-
+const verifyAdmin = require('../passport/auth').verifyAdmin(passport); 
 const verifyClient = require('../passport/auth').verifyClient(passport);
 
 const MetricsController = {
