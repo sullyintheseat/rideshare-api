@@ -25,8 +25,25 @@ const IndexController = {
         'Authorization': `Bearer ${process.env.EVENTBRITE_TOKEN}`,
         'Content-Type': 'application/json'
       }}, function (error, response, body) {
-      console.log('Status:', response.statusCode);
-      res.status(200).send(JSON.parse(body))
+     
+
+      let parsed = JSON.parse(body);
+      let min = [];
+      for(let i = 0; i < parsed.events.length; i++) {
+        let evt = parsed.events[i];
+        let t = {};
+        if(evt.logo != null) {
+          t.name = evt.name;
+          t.description = evt.description;
+          t.url = evt.url;
+          t.start = evt.start;
+          t.end = evt.end;
+          t.venue = evt.venue;
+          t.logo = evt.logo;
+          min.push(t);
+        }
+      }
+      res.status(200).send(min)
     });
   }
 }
