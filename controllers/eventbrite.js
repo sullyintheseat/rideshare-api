@@ -29,6 +29,7 @@ const EventBriteController = {
           t.venue = evt.venue;
           t.logo = evt.logo;
           t.category_id = evt.category_id;
+          t.is_free = evt.is_free;
           t.subcategory_id = evt.subcategory_id;
           min.push(t);
         }
