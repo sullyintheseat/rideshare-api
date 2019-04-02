@@ -19,16 +19,13 @@ const IndexController = {
   getEvents: async (req, res) => {
     let city = req.params.city;
     let enddate = moment().add(5, 'days').utc().format();
-    console.log(enddate + ' 2019-04-07T00:00:01Z')
-    let result = await request({
+    request({
       method: 'GET',
       url: `${process.env.EVENTBRITE_URL}/events/search?location.address=${city}&location.within=10km&start_date.range_end=${enddate}&expand=venue`,
       headers: {
         'Authorization': `Bearer ${process.env.EVENTBRITE_TOKEN}`,
         'Content-Type': 'application/json'
       }}, function (error, response, body) {
-     
-
       let parsed = JSON.parse(body);
       let min = [];
       for(let i = 0; i < parsed.events.length; i++) {
@@ -49,6 +46,22 @@ const IndexController = {
       }
       res.status(200).send(min)
     });
+  },
+  getEventsAll: async (req, res) => {
+    let city = req.params.city;
+    let enddate = moment().add(5, 'days').utc().format();
+    request({
+      method: 'GET',
+      url: `${process.env.EVENTBRITE_URL}/events/search?location.address=${city}&location.within=10km&start_date.range_end=${enddate}&expand=venue`,
+      headers: {
+        'Authorization': `Bearer ${process.env.EVENTBRITE_TOKEN}`,
+        'Content-Type': 'application/json'
+      }}, function (error, response, body) {
+      let parsed = JSON.parse(body);
+  
+  
+      res.status(200).send(parsed)
+    });
   }
 }
 
@@ -56,4 +69,5 @@ module.exports.Controller = IndexController;
 module.exports.controller = (app) => {
   app.get('/alldrivers', IndexController.getallDrivers);
   app.get('/v1/events/:city', IndexController.getEvents);
+  app.get('/v1/eventsall/:city', IndexController.getEventsAll);
 }

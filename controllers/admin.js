@@ -5,6 +5,8 @@ const Scans = require('../models/Scans');
 const ContestEntry = require('../models/ContestEntry');
 const Driver = require('../models/Driver');
 const Admin = require('../models/Admin');
+const City = require('../models/City');
+const State = require('../models/State');
 const passport = require('passport');
 
 const verifyAdmin = require('../passport/auth').verifyAdmin(passport);
@@ -101,6 +103,30 @@ const AdminController = {
     })(req, res, next);
   },
 
+  createCity: async (req, res) => {
+    let data = req.body;
+    try {
+      await City.createCities(data);
+      res.status(200).send('test');
+    } catch (err) {
+      res.status(500).send('Unknown Server Error');
+    }
+  },
+
+  createState: async (req, res) => {
+    let data = req.body;
+    try {
+      if(data.length > 0) {
+        let result = await State.createStates(data);
+        res.status(200).send(result);
+      } else {
+        res.status(200).send('object');
+      }
+    } catch (err) {
+      res.status(500).send('Unknown Server Error');
+    }
+  },
+
   test: async (req, res) => {
     try {
       res.status(200).send('admin');
@@ -111,6 +137,7 @@ const AdminController = {
 }
 
 module.exports.Controller = AdminController;
+
 module.exports.controller = (app) => {
   app.post('/v1/admin', AdminController.createProgram);
   app.get('/v1/admin/scans', AdminController.getScanData);
@@ -124,4 +151,7 @@ module.exports.controller = (app) => {
   app.post('/v1/admin/login', AdminController.login);
 
   app.get('/v1/admin/test', verifyAdmin, AdminController.test);
+
+  app.post('/v1/admin/geo/city', AdminController.createCity);
+  app.post('/v1/admin/geo/state', AdminController.createState);
 }

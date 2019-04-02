@@ -60,6 +60,10 @@ const DriverSchema = Schema({
     type: String,
     required: true
   },
+  metroServed: {
+    type: String,
+    default: null
+  },
   isDeleted: {
     type: Boolean,
     default: false

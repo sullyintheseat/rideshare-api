@@ -4,6 +4,8 @@ const BetaSignUp = require('../models/BetaSignUp');
 const Scan = require('../models/Scans');
 const moment = require('moment');
 const Tags = require('../models/Tag')
+const City = require('../models/City');
+const State = require('../models/State');
 
 const RootController = {
 
@@ -124,7 +126,19 @@ const RootController = {
     } catch (err) {
       res.status(500).send('big error');
     }
+  },
 
+  getStatesAndCitites: async (req, res) => {
+    try {
+      let result = await State.getStatesAndCities();
+      if(Boolean(result)){
+        res.status(200).send(result);
+      } else {
+        res.status(401).send('No match found');
+      }
+    } catch (err) {
+      res.status(500).send('big error');
+    }
   }
 
 }
@@ -142,4 +156,5 @@ module.exports.controller = (app) => {
   app.post('/signup', RootController.signUp);
   app.get('/xyzzy/', RootController.getAllSigners);
 
+  app.get('/v1/data/states', RootController.getStatesAndCitites);
 }
