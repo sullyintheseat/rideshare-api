@@ -28,6 +28,8 @@ const EventBriteController = {
           t.end = evt.end;
           t.venue = evt.venue;
           t.logo = evt.logo;
+          t.category_id = evt.category_id;
+          t.subcategory_id = evt.subcategory_id;
           min.push(t);
         }
       }
