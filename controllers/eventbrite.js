@@ -64,9 +64,17 @@ const EventBriteController = {
         'Content-Type': 'application/json'
       }}, function (error, response, body) {
       let parsed = JSON.parse(body);
-  
-  
-      res.status(200).send(parsed)
+      let min = [];
+      for(let i = 0; i < parsed.categories.length; i++) {
+        let cat = parsed.categories[i];
+        let t = {
+          name: cat.name,
+          short_name: cat.short_name,
+          id: cat.id,
+        }
+        min.push(t);
+      }
+      res.status(200).send(min)
     });
   }
 
