@@ -6,7 +6,7 @@ const User = require('../models/User');
 const Client = require('../models/Client');
 const passport = require('passport');
 const verifyAuth = require('../passport/auth').verifyAuth(passport);
-const verifyClient = require('../passport/auth').verifyClient(passport);
+const verifyAdmin = require('../passport/auth').verifyAdmin(passport);
 
 const AccountController = {
   
@@ -266,6 +266,14 @@ const AccountController = {
     }
   },
 
+  admvalidornot: async (req, res) => {
+    try{
+      res.status(200).send({value:'ok'})
+    } catch (err) {
+      res.status(401).send({value:'failed'})
+    }
+  },
+
   signupClient: async (req, res, next) => {
     passport.authenticate('local-client-signup', { session: false }, async (err, user, info) => {
       if (user) {
@@ -298,6 +306,8 @@ module.exports.Controller = AccountController;
 module.exports.controller = (app) => {
   // call for beta signup profile data.
   app.get('/amvalid', verifyAuth, AccountController.validornot);
+  app.get('/admvalid', verifyAdmin, AccountController.admvalidornot);
+
   app.get('/code/:id', AccountController.getBetaProfile);
   // calls for user account settings
   app.post('/accountSettings/user', AccountController.createDriver);

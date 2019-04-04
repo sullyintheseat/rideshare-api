@@ -6,7 +6,7 @@ const moment = require('moment');
 const Tags = require('../models/Tag')
 const City = require('../models/City');
 const State = require('../models/State');
-
+const BetaTags = require('../models/BetaTags');
 const RootController = {
 
   createBetaTags: async (req, res) => {
@@ -23,6 +23,7 @@ const RootController = {
       let result = await BetaTags.getBetaTagUrls();
       res.status(200).send(result);
     } catch (error){
+      console.log(error)
       res.status(500).send('big error');
     }
   },
