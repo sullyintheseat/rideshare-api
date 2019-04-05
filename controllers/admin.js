@@ -127,6 +127,24 @@ const AdminController = {
     }
   },
 
+  getContestList: async (req, res) => {
+    try {
+      let result = await ContestEntry.getContestList();
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown Server Error');
+    }
+  },
+
+  getLeaderBoardAdmin: async (req, res) => {
+    try {
+      let result = await Scans.getLeaderBoardAdmin();
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send('Unknown server error');
+    }
+  },
+
   test: async (req, res) => {
     try {
       res.status(200).send('admin');
@@ -139,19 +157,22 @@ const AdminController = {
 module.exports.Controller = AdminController;
 
 module.exports.controller = (app) => {
-  app.post('/v1/admin', AdminController.createProgram);
-  app.get('/v1/admin/scans', AdminController.getScanData);
-  app.get('/v1/admin/metrics', AdminController.getAdClickedData);
-  app.get('/v1/admin/devices', AdminController.getDeviceData);
-  app.get('/v1/admin/contests', AdminController.getContestEntries);
-  app.get('/v1/admin/registered', AdminController.getRegistered);
-  app.get('/v1/admin/unregistered', AdminController.getUnregistered);
+  app.post('/v1/admin', verifyAdmin, AdminController.createProgram);
+  app.get('/v1/admin/scans', verifyAdmin, AdminController.getScanData);
+  app.get('/v1/admin/metrics', verifyAdmin, AdminController.getAdClickedData);
+  app.get('/v1/admin/devices', verifyAdmin, AdminController.getDeviceData);
+  app.get('/v1/admin/contests', verifyAdmin, AdminController.getContestEntries);
+  app.get('/v1/admin/registered', verifyAdmin, AdminController.getRegistered);
+  app.get('/v1/admin/unregistered', verifyAdmin, AdminController.getUnregistered);
 
-  app.post('/v1/admin/new/', AdminController.createAdmin);
+  app.post('/v1/admin/new/', verifyAdmin, AdminController.createAdmin);
   app.post('/v1/admin/login', AdminController.login);
 
-  app.get('/v1/admin/test', verifyAdmin, AdminController.test);
+  app.get('/v1/admin/test', verifyAdmin, verifyAdmin, AdminController.test);
 
-  app.post('/v1/admin/geo/city', AdminController.createCity);
-  app.post('/v1/admin/geo/state', AdminController.createState);
+  app.post('/v1/admin/geo/city', verifyAdmin, AdminController.createCity);
+  app.post('/v1/admin/geo/state', verifyAdmin, AdminController.createState);
+
+  app.get('/v1/admin/contestlist', verifyAdmin, AdminController.getContestList);
+  app.get('/v1/admin/leaderboard', AdminController.getLeaderBoardAdmin);
 }

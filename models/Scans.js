@@ -115,6 +115,31 @@ class Scan {
       return error;
     }
   }
+
+  static async getLeaderBoardAdmin() {
+    try {
+      return await this.aggregate([
+        {
+            "$group" : {
+                _id:"$driverId", 
+                count:{$sum:1}
+            },
+        },
+        {
+            "$lookup" : {
+                 from: 'drivers',
+                 localField: '_id',
+                 foreignField: 'driverId',
+                 as: 'driver'
+             }
+        },
+        {$unwind : '$driver' },
+        {$sort : {count: -1}},
+     ])
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 ScanSchema.loadClass(Scan);

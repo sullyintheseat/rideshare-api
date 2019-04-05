@@ -96,6 +96,20 @@ class ContestEntry {
     }
   }
 
+  static async getContestList() {
+    try {
+      return await this.aggregate([
+        {
+            $group : {
+                _id: '$contest'
+            }
+        }
+    ]);
+    } catch (err) {
+      return false;
+    }
+  }
+
 }
 
 ContestEntrySchema.loadClass(ContestEntry);
