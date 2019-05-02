@@ -4,6 +4,7 @@ const AdMetric = require('../models/AdMetric');
 const Scans = require('../models/Scans');
 const ContestEntry = require('../models/ContestEntry');
 const Driver = require('../models/Driver');
+const User = require('../models/User');
 const Admin = require('../models/Admin');
 const City = require('../models/City');
 const State = require('../models/State');
@@ -145,18 +146,25 @@ const AdminController = {
     }
   },
 
-  test: async (req, res) => {
-    try {
-      res.status(200).send('admin');
-    } catch (err) {
-      res.status(500).send('Unknown Server Error');
-    }
-  }
+  getDriverData: async (req, res) => {
+
+  },
+
+  updateDriverData: async (req, res) => {
+
+  },
+
+  updateDriverPassword: async (req, res) => {
+
+  },
+
 }
 
 module.exports.Controller = AdminController;
 
 module.exports.controller = (app) => {
+  app.post('/v1/admin/login', AdminController.login);
+
   app.post('/v1/admin', verifyAdmin, AdminController.createProgram);
   app.get('/v1/admin/scans', verifyAdmin, AdminController.getScanData);
   app.get('/v1/admin/metrics', verifyAdmin, AdminController.getAdClickedData);
@@ -166,9 +174,6 @@ module.exports.controller = (app) => {
   app.get('/v1/admin/unregistered', verifyAdmin, AdminController.getUnregistered);
 
   app.post('/v1/admin/new/', verifyAdmin, AdminController.createAdmin);
-  app.post('/v1/admin/login', AdminController.login);
-
-  app.get('/v1/admin/test', verifyAdmin, verifyAdmin, AdminController.test);
 
   app.post('/v1/admin/geo/city', verifyAdmin, AdminController.createCity);
   app.post('/v1/admin/geo/state', verifyAdmin, AdminController.createState);

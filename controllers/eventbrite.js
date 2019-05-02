@@ -13,28 +13,34 @@ const EventBriteController = {
         'Authorization': `Bearer ${process.env.EVENTBRITE_TOKEN}`,
         'Content-Type': 'application/json'
       }}, function (error, response, body) {
+        console.log(error);
+        console.log(response);
       let parsed = JSON.parse(body);
       let min = [];
-      for(let i = 0; i < parsed.events.length; i++) {
-        let evt = parsed.events[i];
-        let t = {};
-        if(evt.logo != null) {
-          t.id = evt.id;
-          t.url = evt.url;
-          t.name = evt.name;
-          t.description = evt.description;
-          t.url = evt.url;
-          t.start = evt.start;
-          t.end = evt.end;
-          t.venue = evt.venue;
-          t.logo = evt.logo;
-          t.category_id = evt.category_id;
-          t.is_free = evt.is_free;
-          t.subcategory_id = evt.subcategory_id;
-          min.push(t);
+      try {
+        for(let i = 0; i < parsed.events.length; i++) {
+          let evt = parsed.events[i];
+          let t = {};
+          if(evt.logo != null) {
+            t.id = evt.id;
+            t.url = evt.url;
+            t.name = evt.name;
+            t.description = evt.description;
+            t.url = evt.url;
+            t.start = evt.start;
+            t.end = evt.end;
+            t.venue = evt.venue;
+            t.logo = evt.logo;
+            t.category_id = evt.category_id;
+            t.is_free = evt.is_free;
+            t.subcategory_id = evt.subcategory_id;
+            min.push(t);
+          }
         }
+        res.status(200).send(min)
+      } catch (err) {
+        res.status(401).send('error');
       }
-      res.status(200).send(min)
     });
   },
 
