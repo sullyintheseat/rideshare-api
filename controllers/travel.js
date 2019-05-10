@@ -40,4 +40,5 @@ module.exports.Controller = TravelManagerController
 module.exports.controller = (app) => {
   app.post('/v1/cvb/hotel', TravelManagerController.createHotel)
   app.get('/v1/cvb/hotel/:id', TravelManagerController.getHotelByShort)
+  app.get('/v1/cvb/hotels', TravelManagerController.getAllHotels)
 }
