@@ -87,6 +87,15 @@ class Hotel {
      return err; 
     }
   }
+
+  static async getHotels() {
+    try {
+      return await this.find()
+        .exec()
+    } catch (err){
+     return err; 
+    }
+  }
 }
 
 HotelSchema.loadClass(Hotel);

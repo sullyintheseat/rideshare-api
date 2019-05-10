@@ -24,7 +24,16 @@ const TravelManagerController = {
     } catch (err) {
       res.status(500).send('Unknown Server Response')
     }
-  }
+  },
+
+  getAllHotels: async (req, res) => {
+    try {
+      let hotel = await Hotels.getHotels()
+      res.status(200).send(hotel)
+    } catch (err) {
+      res.status(500).send('Unknown Server Response')
+    }
+  },
 }
 
 module.exports.Controller = TravelManagerController
