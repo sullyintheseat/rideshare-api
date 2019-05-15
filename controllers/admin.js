@@ -167,7 +167,7 @@ module.exports.controller = (app) => {
 
   app.post('/v1/admin', verifyAdmin, AdminController.createProgram);
   app.get('/v1/admin/scans', verifyAdmin, AdminController.getScanData);
-  app.get('/v1/admin/metrics', verifyAdmin, AdminController.getAdClickedData);
+  app.get('/v1/admin/metrics', AdminController.getAdClickedData);
   app.get('/v1/admin/devices', verifyAdmin, AdminController.getDeviceData);
   app.get('/v1/admin/contests', verifyAdmin, AdminController.getContestEntries);
   app.get('/v1/admin/registered', verifyAdmin, AdminController.getRegistered);
